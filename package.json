@@ -1,0 +1,38 @@
+{
+  "name": "e-shop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "lerna run serve --scope frontend --scope backend --parallel --stream",
+    "serve:web": "lerna run serve --scope frontend",
+    "serve:node": "lerna run serve --scope backend",
+    "build": "lerna run build --scope frontend --scope backend --parallel --stream",
+    "build:web": "lerna run build --scope frontend",
+    "build:node": "lerna run build --scope backend",
+    "lint": "lerna run lint --scope frontend --scope backend --parallel --stream",
+    "pre-commit": "lerna run pre-commit --stream --exclude-dependents",
+    "commit": "npm run pre-commit && git cz",
+    "version": "conventional-changelog -i CHANGELOG.md -s -p conventional-changelog-emoji && git add CHANGELOG.md",
+    "log": "conventional-changelog -i CHANGELOG.md -s -r 0 -p conventional-changelog-emoji"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-angular": "^8.3.4",
+    "commitizen": "^4.0.4",
+    "conventional-changelog": "^3.1.18",
+    "conventional-changelog-cli": "^2.0.31",
+    "conventional-changelog-emoji": "^0.3.3",
+    "cz-customizable": "^6.2.0",
+    "husky": "^4.2.5",
+    "lerna": "^4.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
+}
