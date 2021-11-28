@@ -7,7 +7,8 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "pre-commit": "lint-staged"
+    "pre-commit": "lint-staged",
+    "kill": "kill-port --port 8080"
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -36,6 +37,7 @@
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^6.2.2",
+    "kill-port": "^1.6.1",
     "lint-staged": "^9.5.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.2",
