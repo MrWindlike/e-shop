@@ -1,3 +1,4 @@
+import { Address } from 'App/Models/Address'
 /*
 |--------------------------------------------------------------------------
 | Routes
@@ -19,6 +20,11 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
+import 'App/Modules/User/routes'
+import 'App/Modules/Admin/routes'
+import 'App/Modules/Address/routes'
+import 'App/Modules/Good/routes'
+import 'App/Modules/Order/routes'
 
 Route.get('/', async () => {
   return { hello: 'world' }

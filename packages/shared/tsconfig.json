@@ -1,0 +1,16 @@
+{
+    "exclude": [
+        "node_modules",
+        "lib"
+    ],
+    "include": [
+        "./src/**/*",
+        "./types/**/*"
+    ],
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "esnext",
+        "baseUrl": ".",
+        "outDir": "lib"
+    }
+}
