@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "install": "lerna bootstrap",
     "serve": "lerna run serve --parallel --stream",
     "serve:web": "lerna run serve --scope frontend --scope shared --parallel --stream",
     "serve:node": "lerna run serve --scope backend --scope shared --parallel",

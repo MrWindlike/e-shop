@@ -1,6 +1,6 @@
-### setup
+### Setup
 ```bash
-yarn
+npm run install
 ```
 
 ### Start 
