@@ -1,6 +1,7 @@
 import typescript from '@rollup/plugin-typescript';
 import vue from 'rollup-plugin-vue';
-import babel from '@rollup/plugin-babel';
+import commonjs from '@rollup/plugin-commonjs';
+import babel, { getBabelOutputPlugin } from '@rollup/plugin-babel';
 import path from 'path';
 
 export default {
@@ -22,15 +23,16 @@ export default {
     /@babel\/runtime/
   ],
   plugins: [
-    babel({
-      exclude: 'node_modules/**',
-      babelHelpers: 'runtime',
-      runtimeHelpers: true,
-      configFile: path.resolve(__dirname, '.babelrc'),
-    }),
-    typescript(),
     vue({
       target: 'browser',
     }),
+    babel({
+      exclude: 'node_modules/**',
+      extensions: ['.js', '.ts', 'jsx'],
+    }),
+    getBabelOutputPlugin({
+      configFile: path.resolve(__dirname, '.babelrc'),
+    }),
+    typescript(),
   ]
 };

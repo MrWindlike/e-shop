@@ -1,10 +1,5 @@
 import Header from './Header';
 import Container from './Container';
-import Vue from 'vue';
-import {
-  Button
-} from 'element-ui';
+import List from './List';
 
-Vue.use(Button);
-
-export { Header, Container };
+export { Header, Container, List };
