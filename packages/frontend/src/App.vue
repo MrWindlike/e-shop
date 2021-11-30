@@ -4,9 +4,23 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
+    <v-header />
     <router-view/>
   </div>
 </template>
+
+<script>
+import {
+  Header,
+} from 'shared/lib/components';
+
+export default {
+  name: 'App',
+  components: {
+    VHeader: Header,
+  },
+};
+</script>
 
 <style lang="scss">
 #app {
