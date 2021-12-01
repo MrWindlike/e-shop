@@ -25,5 +25,9 @@ module.exports = {
         jest: true,
       },
     },
+    {
+      files: ['*.vue', '*.js'],
+      extends: ['plugin:vue/essential', '@vue/airbnb'],
+    }
   ],
 };

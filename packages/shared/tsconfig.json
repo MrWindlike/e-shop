@@ -8,9 +8,12 @@
         "./types/**/*"
     ],
     "compilerOptions": {
-        "module": "commonjs",
+        "module": "esnext",
         "target": "esnext",
         "baseUrl": ".",
-        "outDir": "lib"
+        "outDir": "lib",
+        "moduleResolution": "node",
+        "declaration": true,
+        "jsx": "preserve",
     }
 }
