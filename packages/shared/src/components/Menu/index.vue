@@ -1,30 +1,17 @@
-<script lang="babel">
+<script>
 import {
   Menu,
   MenuItem,
   Submenu
 } from 'element-ui';
 
-function buildMenus (menus) {
-  return menus.map(menu => {
-    if (menu.children) {
-      return (
-        <Submenu title={menu.title}>
-          {buildMenus(menu.children)}
-        </Submenu>
-      );
-    } else {
-      return (
-        <MenuItem key={menu.path}>
-          {menu.title}
-        </MenuItem>
-      );
-    }
-  });
-}
-
 export default {
   name: 'VMenu',
+  components: {
+    Menu,
+    MenuItem,
+    Submenu
+  },
   props: {
     menus: {
       type: Array,
@@ -34,18 +21,39 @@ export default {
       type: String,
       default: ''
     },
-    menuProps: {
-      type: Object,
-      default: () => ({})
-    }
   },
   render() {
+    function buildMenus (menus) {
+      return menus.map(menu => {
+        if (menu.children) {
+          return (
+            <Submenu title={menu.name}>
+              <template slot="title">
+                {menu.icon ? <i class={menu.icon}></i> : ''}
+                <span>{menu.name}</span>
+              </template>
+              {buildMenus(menu.children)}
+            </Submenu>
+          );
+        } else {
+          return (
+            <MenuItem key={menu.path} index={menu.path}>
+              {menu.icon ? <i class={menu.icon}></i> : ''}
+              <span>{menu.name}</span>
+            </MenuItem>
+          );
+        }
+      });
+    }
+
     return (
       <Menu
+        class="v-menu"
         mode="vertical"
         defaultActive={this.defaultActive || this.menus[0].path}
+        router={true}
         {...{
-          props: this.menuProps
+          props: this.$attrs
         }}
       >
         {buildMenus(this.menus)}
@@ -57,5 +65,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.v-menu {
+  height: 100%;
+}
 </style>

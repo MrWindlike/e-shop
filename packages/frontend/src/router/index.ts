@@ -28,6 +28,11 @@ const routes: Array<RouteConfig> = [
         name: 'GoodsDetail',
         component: () => import(/* webpackChunkName: "good" */ '../views/Shop/Good/index.vue'),
       },
+      {
+        path: 'pay',
+        name: 'Pay',
+        component: () => import(/* webpackChunkName: "pay" */ '../views/Shop/Pay/index.vue'),
+      }
     ],
   },
 ];

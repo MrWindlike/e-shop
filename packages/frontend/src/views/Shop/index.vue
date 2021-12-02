@@ -1,8 +1,11 @@
 <template>
   <v-container
+    class="shop-page"
     :header-props="headerProps"
   >
-    <router-view></router-view>
+    <div class="shop-page-container">
+      <router-view></router-view>
+    </div>
   </v-container>
 </template>
 
@@ -40,12 +43,27 @@ export default {
       menuProps: {
         menus: [
           {
+            icon: 'el-icon-document',
             key: 'home',
+            path: '/home',
             name: '首页',
           },
           {
+            icon: 'el-icon-document',
             key: 'about',
             name: '关于',
+            children: [
+              {
+                key: 'about',
+                name: '关于',
+                icon: 'el-icon-document',
+              },
+              {
+                key: 'about',
+                name: '关于',
+                icon: 'el-icon-document',
+              },
+            ],
           },
         ],
       },
@@ -55,5 +73,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.shop-page {
+  height: 100%;
 
+  &-container {
+    width: 1080px;
+    margin: auto;
+  }
+}
 </style>

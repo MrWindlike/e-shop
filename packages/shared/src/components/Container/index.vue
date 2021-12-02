@@ -1,14 +1,17 @@
 <template>
   <el-container class="v-container">
-    <el-header>
+    <el-header height="64px">
       <slot name="header">
         <VHeader
           v-bind="headerProps"
         />
       </slot>
     </el-header>
-    <el-container>
-      <el-aside width="200px">
+    <el-container class="v-container-body">
+      <el-aside
+        v-if="menuProps"
+        width="240px"
+      >
         <slot name="aside">
           <v-menu
             v-bind="menuProps"
@@ -34,10 +37,9 @@ import {
   Aside,
   Main,
   Footer,
-  Menu,
-  MenuItem,
 } from 'element-ui';
 import VHeader from '../Header';
+import VMenu from '../Menu';
 
 export default {
   name: 'VContainer',
@@ -47,9 +49,8 @@ export default {
     ElAside: Aside,
     ElMain: Main,
     ElFooter: Footer,
-    ElMenu: Menu,
-    ElMenuItem: MenuItem,
     VHeader,
+    VMenu,
   },
   props: {
     headerProps: {
@@ -58,7 +59,7 @@ export default {
     },
     menuProps: {
       type: Object,
-      default: ()=> ({})
+      default: ()=> null
     }
   }
 };
@@ -66,8 +67,18 @@ export default {
 
 <style lang="scss" scoped>
 .v-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
   .el-header {
+    position: relative;
+    z-index: 5;
     padding: 0;
+  }
+
+  &-body {
+    flex: 1;
   }
 }
 </style>

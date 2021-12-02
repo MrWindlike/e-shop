@@ -1,0 +1,12 @@
+diff a/packages/frontend/src/views/Shop/Goods/index.vue b/packages/frontend/src/views/Shop/Goods/index.vue	(rejected hunks)
+@@ -17,5 +17,5 @@ export default {
+-          price: 11.11
+-        }
+-      ]
+-    }
+-  }
++          price: 11.11,
++        },
++      ],
++    };
++  },

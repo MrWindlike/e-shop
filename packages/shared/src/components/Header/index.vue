@@ -81,13 +81,13 @@ export default {
 
 <style lang="scss" scoped>
 .v-header {
-  height: 64px;
+  height: 100%;
   background-color: #fff;
   padding: 0 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: #666 0px 1px 3px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 
   &-title {
     font-size: 24px;

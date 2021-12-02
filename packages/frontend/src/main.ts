@@ -3,15 +3,18 @@ import {
   List,
   Header,
   Container,
-} from 'shared/lib/components';
+} from 'shared/src/components';
 import {
   Login,
-} from 'shared/lib/pages';
+} from 'shared/src/pages';
 import {
   Button,
   InputNumber,
   Alert,
   Select,
+  Icon,
+  Table,
+  TableColumn
 } from 'element-ui';
 import App from './App.vue';
 import './registerServiceWorker';
@@ -25,6 +28,9 @@ Vue.use(Button);
 Vue.use(InputNumber);
 Vue.use(Alert);
 Vue.use(Select);
+Vue.use(Icon);
+Vue.use(Table);
+Vue.use(TableColumn);
 Vue.component(List.name, List);
 Vue.component(Login.name, Login);
 Vue.component(Header.name, Header);

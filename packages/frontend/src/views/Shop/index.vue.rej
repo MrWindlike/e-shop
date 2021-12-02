@@ -1,0 +1,6 @@
+diff a/packages/frontend/src/views/Shop/index.vue b/packages/frontend/src/views/Shop/index.vue	(rejected hunks)
+@@ -52,2 +52,2 @@ export default {
+-    }
+-  }
++    };
++  },

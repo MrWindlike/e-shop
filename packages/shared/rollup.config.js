@@ -43,14 +43,14 @@ export default {
     vue({
       target: 'browser',
     }),
-    commonjs({
-      exclude: [
-        path.resolve(__dirname, 'src/**'),
-      ]
-    }),
+    // commonjs({
+    //   exclude: [
+    //     path.resolve(__dirname, 'src/**'),
+    //   ]
+    // }),
     babel({
-      exclude: 'node_modules/**',
-      extensions: ['.js', '.ts', 'jsx'],
+      // exclude: 'node_modules/**',
+      extensions: ['.js', '.ts', '.jsx'],
     }),
     typescript(),
   ]
