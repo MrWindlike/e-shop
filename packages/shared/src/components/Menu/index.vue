@@ -1,4 +1,4 @@
-<script lang="babel">
+<script>
 import {
   Menu,
   MenuItem,

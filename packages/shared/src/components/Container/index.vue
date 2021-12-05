@@ -4,6 +4,7 @@
       <slot name="header">
         <VHeader
           v-bind="headerProps"
+          v-on="$listeners"
         />
       </slot>
     </el-header>
@@ -15,14 +16,15 @@
         <slot name="aside">
           <v-menu
             v-bind="menuProps"
+            v-on="$listeners"
           />
         </slot>
       </el-aside>
       <el-container>
-        <el-main>
+        <el-main class="v-container-main">
           <slot></slot>
         </el-main>
-        <el-footer>
+        <el-footer class="v-container-footer">
           <slot name="footer"></slot>
         </el-footer>
       </el-container>
@@ -77,8 +79,14 @@ export default {
     padding: 0;
   }
 
-  &-body {
+  &-main {
     flex: 1;
+    padding: 25px;
+    background: #f0f2f5;
+  }
+
+  &-footer {
+    background: #f0f2f5;
   }
 }
 </style>

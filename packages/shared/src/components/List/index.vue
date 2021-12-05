@@ -1,42 +1,57 @@
 <template>
   <div class="v-list">
-    <el-card
-      v-for="card of list"
-      class="v-list-card"
-      :key="card.id"
-    >
-      <img
-        src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-        class="v-list-card-image"
+    <template v-if="list.length">
+      <el-card
+        v-for="card of list"
+        class="v-list-card"
+        shadow="hover"
+        :key="card.id"
+        @click.native="onCardClick(card)"
       >
-      <div style="padding: 14px;">
-        <span>好吃的汉堡</span>
-        <div class="bottom clearfix">
-          <time class="time">time</time>
-          <el-button type="text" class="button">操作按钮</el-button>
+        <img
+          src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+          class="v-list-card-image"
+        >
+        <div class="v-list-card-info">
+          <span class="v-list-card-name">{{card.name}}</span>
+          <span class="v-list-card-price">￥{{card.price}}</span>
         </div>
-      </div>
-    </el-card>
+      </el-card>
+    </template>
+    <el-empty
+      v-else
+      description="暂无数据"
+      class="v-list-empty"
+    ></el-empty>
   </div>
 </template>
 
 <script>
 import {
   Card,
-  Button,
+  Empty
 } from 'element-ui';
 
 export default {
   name: 'VList',
   components: {
     ElCard: Card,
-    ElButton: Button,
+    ElEmpty: Empty
   },
   props: {
     list: {
       type: Array,
       default: () => []
     },
+    total: {
+      type: Number,
+      default: 0
+    },
+  },
+  methods: {
+    onCardClick(card) {
+      this.$emit('card-click', card);
+    }
   }
 
 };
@@ -46,10 +61,10 @@ export default {
 .v-list {
   display: flex;
   flex-wrap: wrap;
-  padding: 20px;
 
   &-card {
     width: 240px;
+    cursor: pointer;
 
     &:not(:last-of-type) {
       margin-right: 25px;
@@ -60,6 +75,25 @@ export default {
       height: 100%;
       border-radius: 4px;
     }
+
+    &-info {
+      margin-top: 10px;
+    }
+
+    &-name {
+      font-size: 16px;
+      color: #333;
+      margin-right: 10px;
+    }
+
+    &-price {
+      font-size: 14px;
+      color: #F40;
+    }
+  }
+
+  &-empty {
+    width: 100%;
   }
 }
 </style>

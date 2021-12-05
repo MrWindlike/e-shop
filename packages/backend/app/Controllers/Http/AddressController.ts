@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Address from 'App/Models/Address'
-import addressSchema from 'shared/lib/schemas/address'
+import addressSchema from 'shared/src/schemas/address'
 import { buildPagination, buildResponse } from 'App/Utils/builder'
 import { createSchema } from 'App/Utils/schema'
 
@@ -12,6 +12,7 @@ export default class GoodController {
       const user = ctx.auth.user
       const addresses = (
         await Address.query()
+          .whereNull('deleted')
           .where('userId', user?.id || 0)
           .paginate(pagination.page, pagination.perPage)
       ).toJSON()

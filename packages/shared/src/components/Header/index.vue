@@ -1,20 +1,24 @@
 <template>
   <header class="v-header">
-    <h1 class="v-header-title">
+    <h1
+      @click="onTitleClick"
+      class="v-header-title"
+    >
       {{title}}
     </h1>
     <el-dropdown
       v-if="user"
       @command="onCommand"
     >
-      <span class="el-dropdown-link">
-        {{user.name}}
+      <span class="v-header-user">
+        {{user.account}} <el-icon name="arrow-down"></el-icon>
       </span>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item
           v-for="menu of userMenus"
           :key="menu.key"
           :icon="menu.icon"
+          :command="menu.key"
         >{{menu.name}}</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -69,11 +73,14 @@ export default {
     },
   },
   methods: {
+    onTitleClick() {
+      this.$emit('title-click');
+    },
     onMenuClick(menu) {
       this.$emit('menu-click', menu);
     },
     onCommand(command) {
-      this.$emit('command', command);
+      this.$emit('user-menu-click', command);
     },
   }
 };
@@ -90,14 +97,14 @@ export default {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 
   &-title {
+    cursor: pointer;
     font-size: 24px;
     font-weight: bold;
     color: #333;
   }
 
   &-user {
-    display: flex;
-    align-items: center;
+    cursor: pointer;
   }
 
   &-menus {

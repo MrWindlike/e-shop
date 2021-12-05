@@ -39,7 +39,7 @@
         class="v-login-page-button"
         @click="register"
       >Register</el-button>
-      <div class="v-login-page-tip">
+      <div class="v-login-page-tip" v-if="canRegister">
         <template v-if="type === 'login'">
           No Account? <el-button type="text" @click="switchForm">To Create One</el-button>
         </template>
@@ -73,6 +73,14 @@ export default {
       type: String,
       default: 'Login',
     },
+    type: {
+      type: String,
+      default: 'login',
+    },
+    canRegister: {
+      type: Boolean,
+      default: true,
+    }
   },
   data() {
     return {
@@ -104,12 +112,11 @@ export default {
           },
         ]
       }),
-      type: 'login',
     };
   },
   methods: {
     switchForm() {
-      this.type = this.type === 'login' ? 'register' : 'login';
+      this.$emit('switch');
     },
     login() {
       this.$refs.form.validate((valid) => {

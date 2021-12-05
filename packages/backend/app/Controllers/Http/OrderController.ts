@@ -4,7 +4,7 @@ import Order from 'App/Models/Order'
 import Good from 'App/Models/Good'
 import { buildPagination, buildResponse } from 'App/Utils/builder'
 import { createSchema } from 'App/Utils/schema'
-import orderSchema from 'shared/lib/schemas/order'
+import orderSchema from 'shared/src/schemas/order'
 
 export default class OrderController {
   public async list(ctx: HttpContextContract) {

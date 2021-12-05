@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
-import userSchema from 'shared/lib/schemas/user'
-import { Role } from 'shared/lib/const/role'
+import userSchema from 'shared/src/schemas/user'
+import { Role } from 'shared/src/const/role'
 import { createSchema } from 'App/Utils/schema'
 import { buildResponse } from 'App/Utils/builder'
 import Hash from '@ioc:Adonis/Core/Hash'
@@ -38,8 +38,9 @@ export default class UserController {
         password: params.password,
         role: Role.User,
       })
+      const token = await ctx.auth.use('user').generate(result)
 
-      return result
+      return buildResponse(token, 'Create user successfully', 0)
     } catch (error) {
       ctx.response.status(500)
 
@@ -70,9 +71,23 @@ export default class UserController {
     }
   }
 
+  public async logout(ctx: HttpContextContract) {
+    try {
+      await ctx.auth.use('user').revoke()
+
+      return buildResponse(null, 'Logout successfully')
+    } catch {
+      return ctx.response.internalServerError(buildResponse(null, 'Logout failed', -1))
+    }
+  }
+
   public async list(ctx: HttpContextContract) {
     const users = await User.all()
 
     return users
+  }
+
+  public async show(ctx: HttpContextContract) {
+    return buildResponse(ctx.auth.user)
   }
 }

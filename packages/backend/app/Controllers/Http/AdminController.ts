@@ -2,7 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { buildResponse } from 'App/Utils/builder'
 import User from 'App/Models/User'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { Role } from 'shared/lib/const/role'
+import { Role } from 'shared/src/const/role'
 
 export default class AdminController {
   public async login(ctx: HttpContextContract) {
@@ -26,5 +26,19 @@ export default class AdminController {
     } catch {
       return ctx.response.badRequest(buildResponse(null, 'Invalid credentials', -1))
     }
+  }
+
+  public async logout(ctx: HttpContextContract) {
+    try {
+      await ctx.auth.use('admin').revoke()
+
+      return buildResponse(null, 'Logout successfully')
+    } catch {
+      return ctx.response.internalServerError(buildResponse(null, 'Logout failed', -1))
+    }
+  }
+
+  public async show(ctx: HttpContextContract) {
+    return buildResponse(ctx.auth.user)
   }
 }

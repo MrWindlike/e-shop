@@ -4,7 +4,7 @@ module.exports = {
     node: true,
   },
   extends: [
-    'plugin:vue/essential',
+    'plugin:vue/recommended',
     '@vue/airbnb',
     '@vue/typescript/recommended',
   ],
@@ -14,6 +14,9 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'import/no-cycle': 'warn',
+    'import/prefer-default-export': 'warn',
+    'no-param-reassign': 'warn',
   },
   overrides: [
     {
@@ -25,5 +28,10 @@ module.exports = {
         jest: true,
       },
     },
+    {
+      files: ['*.vue', '*.js'],
+      extends: ['plugin:vue/essential', '@vue/airbnb'],
+    }
   ],
+  ignorePatterns: ["shared/**/*"]
 };

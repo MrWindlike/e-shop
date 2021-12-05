@@ -1,18 +1,34 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Good from 'App/Models/Good'
 import { buildPagination, buildResponse } from 'App/Utils/builder'
-import goodSchema from 'shared/lib/schemas/good'
+import goodSchema from 'shared/src/schemas/good'
 import { createSchema } from 'App/Utils/schema'
 
 export default class GoodController {
+  public async show(ctx: HttpContextContract) {
+    try {
+      const id = ctx.params.id
+      const good = await Good.findOrFail(id)
+
+      if (good.deleted) {
+        throw new Error('Good not found')
+      }
+
+      return buildResponse(good)
+    } catch {
+      return ctx.response.internalServerError(buildResponse(null, 'Good not found', -1))
+    }
+  }
+
   public async list(ctx: HttpContextContract) {
     try {
       const params = ctx.request.qs()
       const pagination = buildPagination(params)
       const goods = (
         await Good.query()
+          .select('id', 'name', 'price', 'inventory')
           .whereNull('deleted')
-          .where('name', 'like', `%${params.name}%`)
+          .where('name', 'like', `%${params.name || ''}%`)
           .paginate(pagination.page, pagination.perPage)
       ).toJSON()
 

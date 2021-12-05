@@ -1,5 +1,5 @@
 import { Schema } from 'shared/types/schema'
-import { SchemaType } from 'shared/lib/const/schema'
+import { SchemaType } from 'shared/src/const/schema'
 import { schema as schemaTool, rules as rulesTool } from '@ioc:Adonis/Core/Validator'
 
 export function adaptSchema(schemas: Record<string, Schema> = {}) {
