@@ -4,4 +4,5 @@ export enum SchemaType {
     Boolean = 'boolean',
     Date = 'date',
     Array = 'array',
+    File = 'file'
 }

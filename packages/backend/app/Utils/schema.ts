@@ -2,9 +2,17 @@ import { Schema } from 'shared/types/schema'
 import { SchemaType } from 'shared/src/const/schema'
 import { schema as schemaTool, rules as rulesTool } from '@ioc:Adonis/Core/Validator'
 
+// 函数与参数名的映射，当有用到相应参数时，调用对应函数并从规则中读取参数的值进行传入
+const map = {
+  minLength: ['minLength'],
+  maxLength: ['maxLength'],
+  regex: ['regex'],
+  range: ['min', 'max'],
+}
+
 export function adaptSchema(schemas: Record<string, Schema> = {}) {
   return Object.entries(schemas).reduce((acc, [key, schema]) => {
-    const rules = []
+    const rules: any[] = []
     let required = false
 
     if (schema.type === SchemaType.Array) {
@@ -13,26 +21,19 @@ export function adaptSchema(schemas: Record<string, Schema> = {}) {
       acc[key] = schemaTool.array().members(members)
     } else {
       ;(schema.rules || []).forEach((rule) => {
-        if (schema.type === SchemaType.String) {
-          if (rule.minLength) {
-            rules.push(rulesTool.minLength(rule.minLength))
-          }
-          if (rule.maxLength) {
-            rules.push(rulesTool.maxLength(rule.maxLength))
-          }
-          if (rule.regex) {
-            rules.push(rulesTool.regex(rule.regex))
-          }
-        } else if (schema.type === SchemaType.Number) {
-          if (rule.min || rule.max) {
+        Object.keys(map).forEach((key) => {
+          const args = map[key]
+
+          if (args.some((name) => rule[name])) {
             rules.push(
-              rulesTool.range(
-                rule.min || Number.MIN_SAFE_INTEGER,
-                rule.max || Number.MAX_SAFE_INTEGER
+              rulesTool[key].apply(
+                rulesTool,
+                args.map((k) => rule[k])
               )
             )
           }
-        }
+        })
+
         if (rule.required) {
           required = true
         }
@@ -40,7 +41,7 @@ export function adaptSchema(schemas: Record<string, Schema> = {}) {
 
       const fn = required ? schemaTool[schema.type] : schemaTool[schema.type].optional
 
-      acc[key] = schema.type === SchemaType.String ? fn({}, rules) : fn(rules)
+      acc[key] = schema.type === SchemaType.String ? fn(schema.options || {}, rules) : fn(rules)
     }
 
     return acc

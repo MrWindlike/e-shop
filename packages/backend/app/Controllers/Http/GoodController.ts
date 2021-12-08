@@ -3,6 +3,7 @@ import Good from 'App/Models/Good'
 import { buildPagination, buildResponse } from 'App/Utils/builder'
 import goodSchema from 'shared/src/schemas/good'
 import { createSchema } from 'App/Utils/schema'
+import path from 'path'
 
 export default class GoodController {
   public async show(ctx: HttpContextContract) {
@@ -44,6 +45,7 @@ export default class GoodController {
   public async create(ctx: HttpContextContract) {
     const schema = createSchema(goodSchema)
     const params = ctx.request.body()
+    const image = ctx.request.file('image')
 
     try {
       await ctx.request.validate({
@@ -57,7 +59,10 @@ export default class GoodController {
     }
 
     try {
-      const result = await Good.create(params)
+      const [result] = await Promise.all([
+        Good.create(params),
+        image?.moveToDisk(path.resolve(__dirname, '../public')),
+      ])
 
       return buildResponse(result)
     } catch (error) {
@@ -93,6 +98,22 @@ export default class GoodController {
       }
     } catch {
       return ctx.response.internalServerError(buildResponse(null, 'Delete good fail', -1))
+    }
+  }
+
+  public async exist(ctx: HttpContextContract) {
+    try {
+      const params = ctx.request.qs()
+      const ids = (params.ids || '').split(',')
+      const result = await Good.query().whereIn('id', ids).whereNull('deleted')
+
+      return buildResponse(
+        result.map((good) => good.id),
+        'Goods fetched success',
+        0
+      )
+    } catch {
+      return ctx.response.internalServerError(buildResponse(null, 'Goods fetched fail', -1))
     }
   }
 }
