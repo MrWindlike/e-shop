@@ -20,6 +20,9 @@ export default class Good extends BaseModel {
   public description: string
 
   @column()
+  public image: string
+
+  @column()
   public price: number
 
   @column()

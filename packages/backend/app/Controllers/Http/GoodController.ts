@@ -3,6 +3,11 @@ import Good from 'App/Models/Good'
 import { buildPagination, buildResponse } from 'App/Utils/builder'
 import goodSchema from 'shared/src/schemas/good'
 import { createSchema } from 'App/Utils/schema'
+import path from 'path'
+import fs from 'fs'
+import adonisrc from '../../../.adonisrc.json'
+
+const PUBLIC_PATH = path.join(__dirname, `../../../${adonisrc.directories.public}`)
 
 export default class GoodController {
   public async show(ctx: HttpContextContract) {
@@ -26,7 +31,6 @@ export default class GoodController {
       const pagination = buildPagination(params)
       const goods = (
         await Good.query()
-          .select('id', 'name', 'price', 'inventory')
           .whereNull('deleted')
           .where('name', 'like', `%${params.name || ''}%`)
           .paginate(pagination.page, pagination.perPage)
@@ -44,6 +48,7 @@ export default class GoodController {
   public async create(ctx: HttpContextContract) {
     const schema = createSchema(goodSchema)
     const params = ctx.request.body()
+    const image = ctx.request.file('image')
 
     try {
       await ctx.request.validate({
@@ -57,11 +62,15 @@ export default class GoodController {
     }
 
     try {
-      const result = await Good.create(params)
+      await image?.moveToDisk(PUBLIC_PATH)
+      const result = await Good.create({
+        ...params,
+        image: image?.fileName,
+      })
 
       return buildResponse(result)
     } catch (error) {
-      ctx.response.internalServerError(buildResponse(null, 'Create good fail', -1))
+      ctx.response.internalServerError(buildResponse(null, 'Create good fail', -1, error))
     }
   }
 
@@ -70,11 +79,26 @@ export default class GoodController {
       const id = ctx.params.id
       const params = ctx.request.body()
       const good = await Good.findOrFail(id)
-      const result = await good.merge(params).save()
+      const image = ctx.request.file('image')
+      const originalImage = good.image
+
+      await image?.moveToDisk(PUBLIC_PATH)
+      const result = await good
+        .merge({
+          name: params.name,
+          description: params.description,
+          price: params.price,
+          inventory: params.inventory,
+          image: image?.fileName || good.image,
+        })
+        .save()
+      if (image?.fileName) {
+        fs.unlink(`${PUBLIC_PATH}/${originalImage}`, () => {})
+      }
 
       return buildResponse(result)
-    } catch {
-      return ctx.response.internalServerError(buildResponse(null, 'Update good fail', -1))
+    } catch (error) {
+      return ctx.response.internalServerError(buildResponse(null, 'Update good fail', -1, error))
     }
   }
 
@@ -93,6 +117,22 @@ export default class GoodController {
       }
     } catch {
       return ctx.response.internalServerError(buildResponse(null, 'Delete good fail', -1))
+    }
+  }
+
+  public async exist(ctx: HttpContextContract) {
+    try {
+      const params = ctx.request.qs()
+      const ids = (params.ids || '').split(',')
+      const result = await Good.query().whereIn('id', ids).whereNull('deleted')
+
+      return buildResponse(
+        result.map((good) => good.id),
+        'Goods fetched success',
+        0
+      )
+    } catch {
+      return ctx.response.internalServerError(buildResponse(null, 'Goods fetched fail', -1))
     }
   }
 }

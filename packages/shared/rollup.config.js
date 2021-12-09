@@ -19,6 +19,8 @@ export default {
   },
   external: [
     'vue',
+    '@vue/composition-api',
+    'axios',
     /element-ui/,
     /@babel\/runtime/
   ],

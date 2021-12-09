@@ -1,4 +1,3 @@
-import { Address } from 'App/Models/Address'
 /*
 |--------------------------------------------------------------------------
 | Routes
@@ -25,6 +24,8 @@ import 'App/Modules/Admin/routes'
 import 'App/Modules/Address/routes'
 import 'App/Modules/Good/routes'
 import 'App/Modules/Order/routes'
+import 'App/Modules/Log/routes'
+import 'App/Modules/Notification/routes'
 
 Route.get('/', async () => {
   return { hello: 'world' }

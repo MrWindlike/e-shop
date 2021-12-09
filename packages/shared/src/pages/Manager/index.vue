@@ -8,6 +8,7 @@
       <slot name="filter"></slot>
     </div>
     <el-table
+      v-loading="loading"
       class="v-manager-table"
       size="small"
       :data="list"
@@ -25,6 +26,16 @@
         </template>
       </el-table-column>
     </el-table>
+    <slot name="pagination">
+      <el-pagination
+        layout="prev, pager, next"
+        :total="total"
+        :current-page="page"
+        :pageSize="pageSize"
+        background
+        @current-change="onPageChange"
+      ></el-pagination>
+    </slot>
     <slot></slot>
   </div>
 </template>
@@ -45,6 +56,18 @@ export default {
       type: Number,
       default: 0
     },
+    loading: {
+      type: Boolean,
+      default: false
+    },
+    page: {
+      type: Number,
+      default: 1
+    },
+    pageSize: {
+      type: Number,
+      default: 10
+    },
     columns: {
       type: Array,
       default: () => []
@@ -54,7 +77,11 @@ export default {
       default: true
     }
   },
-
+  methods: {
+    onPageChange(page) {
+      this.$emit('page-change', page);
+    }
+  }
 };
 </script>
 
@@ -68,6 +95,10 @@ export default {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+  }
+
+  &-table {
+    margin-bottom: 10px;
   }
 }
 </style>

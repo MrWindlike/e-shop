@@ -57,8 +57,8 @@ export default class OrderController {
         user_id: user?.id,
       })
 
-      await Promise.all(
-        goods.map(async (good) => {
+      await Promise.all([
+        ...goods.map(async (good) => {
           const [count] = await trx
             .modelQuery(Good)
             .where('id', good.id)
@@ -73,8 +73,11 @@ export default class OrderController {
           if (count === 0) {
             throw new Error(`Not enough inventory`)
           }
-        })
-      )
+        }),
+        trx.insertQuery().table('notifications').insert({
+          order_id: orderId,
+        }),
+      ])
 
       await trx.commit()
 

@@ -1,6 +1,12 @@
 <template>
-  <div class="v-list">
-    <template v-if="list.length">
+  <div
+    class="v-list"
+  >
+    <div
+      v-infinite-scroll="load"
+      v-if="list.length"
+      class="v-list-container"
+    >
       <el-card
         v-for="card of list"
         class="v-list-card"
@@ -9,7 +15,7 @@
         @click.native="onCardClick(card)"
       >
         <img
-          src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+          :src="card.image"
           class="v-list-card-image"
         >
         <div class="v-list-card-info">
@@ -17,7 +23,7 @@
           <span class="v-list-card-price">￥{{card.price}}</span>
         </div>
       </el-card>
-    </template>
+    </div>
     <el-empty
       v-else
       description="暂无数据"
@@ -47,10 +53,27 @@ export default {
       type: Number,
       default: 0
     },
+    pageSize: {
+      type: Number,
+      default: 10
+    }
+  },
+  data() {
+    return {
+      page: 1,
+    };
   },
   methods: {
+    reset() {
+      this.page = 1;
+    },
     onCardClick(card) {
       this.$emit('card-click', card);
+    },
+    load() {
+      if ((this.page + 1) * this.pageSize <= this.total) {
+        this.$emit('load', ++this.page);
+      }
     }
   }
 
@@ -59,20 +82,26 @@ export default {
 
 <style lang="scss" scoped>
 .v-list {
-  display: flex;
-  flex-wrap: wrap;
+  height: 100%;
+
+  &-container {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: auto;
+  }
 
   &-card {
-    width: 240px;
+    width: calc(20% - 25px);
+    min-width: 240px;
+    margin-right: 20px;
+    margin-bottom: 20px;
     cursor: pointer;
 
-    &:not(:last-of-type) {
-      margin-right: 25px;
-    }
-
     &-image {
-      width: 100%;
-      height: 100%;
+      display: block;
+      margin: auto;
+      width: 200px;
+      height: 200px;
       border-radius: 4px;
     }
 

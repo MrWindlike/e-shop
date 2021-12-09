@@ -17,7 +17,7 @@ export default class AdminController {
         .limit(1)
 
       if (admins.length && (await Hash.verify(admins[0].password, params.password))) {
-        const token = await ctx.auth.use('admin').generate(admins[0])
+        const token = await ctx.auth.use('admin').generate(admins[0], { expiresIn: '1days' })
 
         return buildResponse(token)
       }
