@@ -24,7 +24,7 @@
         <el-main class="v-container-main">
           <slot></slot>
         </el-main>
-        <el-footer class="v-container-footer">
+        <el-footer v-if="displayFooter" class="v-container-footer">
           <slot name="footer"></slot>
         </el-footer>
       </el-container>
@@ -62,6 +62,10 @@ export default {
     menuProps: {
       type: Object,
       default: ()=> null
+    },
+    displayFooter: {
+      type: Boolean,
+      default: false
     }
   }
 };
@@ -77,6 +81,10 @@ export default {
     position: relative;
     z-index: 5;
     padding: 0;
+  }
+
+  &-body {
+    height: calc(100% - 64px);
   }
 
   &-main {

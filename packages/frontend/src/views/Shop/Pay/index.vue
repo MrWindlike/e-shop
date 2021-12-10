@@ -37,9 +37,7 @@
         <el-icon name="plus" />
       </el-button>
     </div>
-    <el-divider class="pay-page-split">
-      <el-icon name="shopping-bag-1" />
-    </el-divider>
+    <el-divider class="pay-page-split" />
     <good-table
       :goods="selectedGoods"
       readonly
@@ -98,7 +96,7 @@ export default {
       }));
     },
     total() {
-      return this.list.reduce((total, good) => total + good.total, 0);
+      return this.list.reduce((total, good) => total + good.total, 0).toFixed(2) * 1;
     },
   },
   methods: {
@@ -153,6 +151,7 @@ export default {
         goods: this.selectedGoods.map((good) => ({
           id: good.id,
           count: good.count,
+          price: good.price,
         })),
       };
 

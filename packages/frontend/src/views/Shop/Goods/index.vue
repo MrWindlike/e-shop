@@ -11,22 +11,9 @@
     <v-promised
       :promise="promise"
     >
-      <template v-slot:pending>
-        <div v-loading />
-      </template>
-      <template v-slot="data">
-        <div class="goods-page-container">
-          <v-list
-            ref="list"
-            class="goods-page-list"
-            :list="goods"
-            :total="data.total"
-            @card-click="onCardClick"
-          />
-        </div>
-      </template>
-      <template v-slot:rejected>
+      <template v-slot:combined="{ isPending, error }">
         <el-result
+          v-if="error"
           icon="error"
           title="错误提示"
           sub-title="获取商品列表失败"
@@ -41,7 +28,22 @@
             </el-button>
           </template>
         </el-result>
+        <div
+          v-else
+          v-loading="isPending"
+          class="goods-page-container"
+        >
+          <v-list
+            ref="list"
+            class="goods-page-list"
+            :list="goods"
+            :total="total"
+            @card-click="onCardClick"
+            @load="load"
+          />
+        </div>
       </template>
+      <template v-slot:rejected />
     </v-promised>
   </div>
 </template>
@@ -51,6 +53,8 @@ import {
   mapActions,
 } from 'vuex';
 
+const PAGE_SIZE = 20;
+
 export default {
   name: 'GoodsPage',
   data() {
@@ -58,6 +62,8 @@ export default {
       promise: null,
       search: '',
       goods: [],
+      total: 0,
+      page: 1,
     };
   },
   methods: {
@@ -67,23 +73,30 @@ export default {
     async fetchList({ page }) {
       this.promise = this.fetchGoods({
         page,
+        perPage: PAGE_SIZE,
         name: this.search,
       });
 
-      const { list } = await this.promise;
+      const { list, total } = await this.promise;
 
       this.goods = this.goods.concat(list);
+      this.total = total;
     },
     onSearch() {
       this.goods = [];
-      this.$refs.list.reset();
+      this.page = 1;
       this.fetchList({ page: 1 });
     },
     onCardClick(item) {
       this.$router.push(`/shop/good/${item.id}`);
     },
-    load(page) {
-      this.fetchList({ page });
+    load() {
+      if (this.page * PAGE_SIZE <= this.total) {
+        this.page += 1;
+        this.fetchList({
+          page: this.page,
+        });
+      }
     },
   },
   created() {
@@ -94,12 +107,16 @@ export default {
 
 <style lang="scss" scoped>
 .goods-page {
+  height: 100%;
+
   &-container {
     display: flex;
     flex-direction: column;
+    height: calc(100% - 52px);
   }
 
   &-list {
+    height: 100%;
     flex: 1;
   }
 

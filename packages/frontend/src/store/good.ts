@@ -59,7 +59,7 @@ const mutations: MutationTree<State> = {
     localState.selectedGoods = selectedGoods;
   },
   RESTORE_CART(localState) {
-    localState.cart = JSON.parse(localStorage.getItem('cart') || '') || [];
+    localState.cart = JSON.parse(localStorage.getItem('cart') || '[]');
   },
   SET_CART(localState, cart) {
     localState.cart = cart;

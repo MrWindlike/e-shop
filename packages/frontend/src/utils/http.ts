@@ -41,7 +41,9 @@ http.interceptors.response.use((response) => {
   }
 
   return response.data;
-}, ({ response }) => {
+}, (error) => {
+  const { response } = error;
+
   if (response.status === 401) {
     clearToken();
     store.commit('user/SET_USER', null);
@@ -52,7 +54,7 @@ http.interceptors.response.use((response) => {
     }
 
     Message.error(response.data?.message || '服务器错误, 请稍后再试');
-    throw new Error(response.data?.message || '服务器错误, 请稍后再试');
+    throw error;
   }
 });
 

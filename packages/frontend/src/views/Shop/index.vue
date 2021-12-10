@@ -121,6 +121,7 @@ export default {
   height: 100%;
 
   &-container {
+    height: 100%;
     margin: auto;
   }
 }

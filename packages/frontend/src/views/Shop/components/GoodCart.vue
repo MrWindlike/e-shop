@@ -74,7 +74,9 @@ export default {
       cart: (state) => state.good.cart,
     }),
     total() {
-      return this.selected.reduce((total, good) => total + good.count * good.price, 0);
+      return this.selected.reduce((total, good) => (
+        total + good.count * good.price
+      ), 0).toFixed(2) * 1;
     },
   },
   methods: {

@@ -6,6 +6,7 @@
       v-infinite-scroll="load"
       v-if="list.length"
       class="v-list-container"
+      infinite-scroll-immediate
     >
       <el-card
         v-for="card of list"
@@ -58,22 +59,12 @@ export default {
       default: 10
     }
   },
-  data() {
-    return {
-      page: 1,
-    };
-  },
   methods: {
-    reset() {
-      this.page = 1;
-    },
     onCardClick(card) {
       this.$emit('card-click', card);
     },
     load() {
-      if ((this.page + 1) * this.pageSize <= this.total) {
-        this.$emit('load', ++this.page);
-      }
+      this.$emit('load');
     }
   }
 
@@ -81,10 +72,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../styles/media.scss';
+
 .v-list {
   height: 100%;
 
   &-container {
+    max-height: 100%;
     display: flex;
     flex-wrap: wrap;
     overflow: auto;
@@ -92,10 +86,28 @@ export default {
 
   &-card {
     width: calc(20% - 25px);
+    height: 280px;
     min-width: 240px;
     margin-right: 20px;
     margin-bottom: 20px;
     cursor: pointer;
+
+    @include laptop {
+      width: calc(25% - 25px);
+    }
+
+    @include laptop-sm {
+      width: calc(33% - 25px);
+    }
+
+    @include mobile-lg {
+      width: calc(50% - 25px);
+    }
+
+    @include mobile {
+      width: 100%;
+      margin-right: 0;
+    }
 
     &-image {
       display: block;

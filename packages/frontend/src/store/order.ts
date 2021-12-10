@@ -1,10 +1,9 @@
 import {
-  Order,
   CreatedOrderParams,
 } from 'shared/types/models/order';
-import { List } from 'shared/types/response';
-import { ActionTree, MutationTree } from 'vuex';
+import { ActionTree } from 'vuex';
 import * as orderService from '@/services/order';
+import router from '../router/index';
 
 const actions: ActionTree<null, null> = {
   async fetchOrders({ commit }, params) {
@@ -13,9 +12,17 @@ const actions: ActionTree<null, null> = {
     return data;
   },
   async createOrder(store, order: CreatedOrderParams) {
-    const { data } = await orderService.createOrder(order);
+    try {
+      const { data } = await orderService.createOrder(order);
 
-    return data;
+      return data;
+    } catch ({ response }) {
+      if ((response as any).data?.code === -2) {
+        router.push({ name: 'Goods' });
+      }
+
+      return null;
+    }
   },
 };
 

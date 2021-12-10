@@ -1,6 +1,7 @@
 <template>
   <div class="order-page">
     <el-table
+      v-loading="loading"
       class="order-page-table"
       :data="data.list"
       :total="data.total"
@@ -99,7 +100,9 @@ export default {
   },
   methods: {
     calcTotal(order) {
-      return order.orderInfos.reduce((total, item) => total + item.good.price * item.count, 0);
+      return order.orderInfos.reduce((total, item) => (
+        total + item.good.price * item.count
+      ), 0).toFixed(2) * 1;
     },
   },
 };
