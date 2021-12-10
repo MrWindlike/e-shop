@@ -7,6 +7,10 @@ export function fetchGoods(params: Pagination): Promise<ResponseResult<List<Good
   return http.get('/shop/goods', { params });
 }
 
-export function fetchGood(id: string): Promise<ResponseResult<Good>> {
+export function fetchGood(id: number): Promise<ResponseResult<Good>> {
   return http.get(`/shop/good/${id}`);
+}
+
+export function checkGoods(ids: number[]): Promise<ResponseResult<Record<string, number>>> {
+  return http.get('/shop/goods/inventory', { params: { ids: ids.join(',') } });
 }

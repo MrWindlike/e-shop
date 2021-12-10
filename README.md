@@ -1,12 +1,22 @@
 ### Setup
 ```bash
-npm run install
+# install packages
+yarn
+# init database
+cd ./packages/backend
+node ace migration:run
+node ace db:seed
 ```
 
 ### Start 
 
 ```bash
-npm run serve
+# start node
+npm run serve:node
+# start frontend
+npm run serve:web
+# start admin
+npm run serve:admin
 ```
 
 ## Build

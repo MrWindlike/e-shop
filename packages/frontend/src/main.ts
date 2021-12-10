@@ -1,3 +1,4 @@
+import './composition';
 import Vue from 'vue';
 import {
   List,
@@ -29,6 +30,8 @@ import {
   Popover,
   Popconfirm,
   Badge,
+  InfiniteScroll,
+  Pagination,
 } from 'element-ui';
 import { Promised } from 'vue-promised';
 import App from './App.vue';
@@ -58,6 +61,8 @@ Vue.use(Backtop);
 Vue.use(Popover);
 Vue.use(Popconfirm);
 Vue.use(Badge);
+Vue.use(InfiniteScroll);
+Vue.use(Pagination);
 Vue.component('VPromised', Promised);
 Vue.component(List.name, List);
 Vue.component(Login.name, Login);

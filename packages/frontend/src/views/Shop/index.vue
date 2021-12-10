@@ -78,8 +78,8 @@ export default {
         ],
         userMenus: [
           {
-            key: 'user',
-            name: '个人中心',
+            key: 'order',
+            name: '我的订单',
           },
           {
             key: 'logout',
@@ -102,7 +102,9 @@ export default {
       }
     },
     async onUserMenuClick(key) {
-      if (key === 'logout') {
+      if (key === 'order') {
+        this.$router.push({ name: 'Order' });
+      } else if (key === 'logout') {
         await this.logout();
         this.$router.push({ name: 'Login' });
       }

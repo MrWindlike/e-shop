@@ -45,6 +45,7 @@
 import {
   mapState,
   mapMutations,
+  mapActions,
 } from 'vuex';
 import GoodTable from './GoodTable.vue';
 
@@ -82,6 +83,7 @@ export default {
       'REMOVE_FROM_CART',
       'UPDATE_CART_COUNT',
     ]),
+    ...mapActions('good', ['checkCart']),
     onSelectionChange(selected) {
       this.selected = selected;
     },
@@ -105,6 +107,9 @@ export default {
         name: 'Pay',
       });
     },
+  },
+  created() {
+    this.checkCart();
   },
 };
 </script>

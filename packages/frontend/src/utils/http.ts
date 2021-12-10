@@ -6,6 +6,8 @@ import {
 } from 'shared/src/const/server';
 import store from '@/store';
 
+const SILENTS = ['/shop/log'];
+
 let token = '';
 
 export function setToken(ticket: string): void {
@@ -34,7 +36,7 @@ http.interceptors.request.use((request) => ({
 }));
 
 http.interceptors.response.use((response) => {
-  if (response.config.method?.toLocaleUpperCase() !== 'GET') {
+  if (response.config.method?.toLocaleUpperCase() !== 'GET' && !SILENTS.includes(response.config.url || '')) {
     Message.success(response.data.message);
   }
 
@@ -45,6 +47,10 @@ http.interceptors.response.use((response) => {
     store.commit('user/SET_USER', null);
     Message.error('登录已过期，请重新登录');
   } else {
+    if (SILENTS.includes(response.config.url)) {
+      return;
+    }
+
     Message.error(response.data?.message || '服务器错误, 请稍后再试');
     throw new Error(response.data?.message || '服务器错误, 请稍后再试');
   }

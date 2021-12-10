@@ -20,6 +20,9 @@
     "paths": {
       "@/*": [
         "src/*"
+      ],
+      "composition-api": [
+        "node_modules/@vue/composition-api"
       ]
     },
     "lib": [

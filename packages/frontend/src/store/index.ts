@@ -4,6 +4,7 @@ import user from './user';
 import good from './good';
 import address from './address';
 import order from './order';
+import log from './log';
 
 Vue.use(Vuex);
 
@@ -13,5 +14,6 @@ export default new Vuex.Store({
     good,
     address,
     order,
+    log,
   },
 });

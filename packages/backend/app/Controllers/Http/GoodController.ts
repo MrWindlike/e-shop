@@ -120,14 +120,18 @@ export default class GoodController {
     }
   }
 
-  public async exist(ctx: HttpContextContract) {
+  public async check(ctx: HttpContextContract) {
     try {
       const params = ctx.request.qs()
       const ids = (params.ids || '').split(',')
       const result = await Good.query().whereIn('id', ids).whereNull('deleted')
 
       return buildResponse(
-        result.map((good) => good.id),
+        result.reduce((acc, good) => {
+          acc[good.id] = good.inventory
+
+          return acc
+        }, {}),
         'Goods fetched success',
         0
       )

@@ -1,6 +1,7 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.get('shop/goods', 'GoodController.list')
+Route.get('shop/goods/inventory', 'GoodController.check')
 Route.get('shop/good/:id', 'GoodController.show')
 Route.group(() => {
   Route.post('shop/good', 'GoodController.create')

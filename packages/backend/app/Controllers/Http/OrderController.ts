@@ -5,6 +5,7 @@ import Good from 'App/Models/Good'
 import { buildPagination, buildResponse } from 'App/Utils/builder'
 import { createSchema } from 'App/Utils/schema'
 import orderSchema from 'shared/src/schemas/order'
+import { Status } from 'shared/src/const/order'
 
 export default class OrderController {
   public async list(ctx: HttpContextContract) {
@@ -68,6 +69,9 @@ export default class OrderController {
           await trx.insertQuery().table('order_infos').insert({
             order_id: orderId,
             good_id: good.id,
+            price: good.price,
+            count: good.count,
+            status: Status.START,
           })
 
           if (count === 0) {

@@ -6,22 +6,9 @@ import { List } from 'shared/types/response';
 import { ActionTree, MutationTree } from 'vuex';
 import * as orderService from '@/services/order';
 
-interface State {
-  orderList: List<Order>;
-}
-
-const state: State = {
-  orderList: {
-    list: [],
-    total: 0,
-  },
-};
-
-const actions: ActionTree<State, null> = {
+const actions: ActionTree<null, null> = {
   async fetchOrders({ commit }, params) {
     const { data } = await orderService.fetchOrders(params);
-
-    commit('SET_ORDER_LIST', data);
 
     return data;
   },
@@ -32,15 +19,7 @@ const actions: ActionTree<State, null> = {
   },
 };
 
-const mutations: MutationTree<State> = {
-  SET_ORDER_LIST(localState, data) {
-    localState.orderList = data;
-  },
-};
-
 export default {
   namespaced: true,
-  state,
   actions,
-  mutations,
 };

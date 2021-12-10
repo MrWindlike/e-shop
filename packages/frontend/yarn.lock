@@ -11407,6 +11407,11 @@ vue@^2.6.11:
   resolved "https://registry.npmmirror.com/vue/download/vue-2.6.14.tgz#e51aa5250250d569a3fbad3a8a5a687d6036e235"
   integrity sha1-5RqlJQJQ1Wmj+606ilpofWA24jU=
 
+vuex-composition-helpers@^1.0.26:
+  version "1.0.26"
+  resolved "https://registry.npmmirror.com/vuex-composition-helpers/download/vuex-composition-helpers-1.0.26.tgz#0a90fd7a516abd70f58aa2375bcdabdbaf05ca9d"
+  integrity sha512-JxnFyM1VzolfVW5bJG3nCqdsfJvV4YBETGemNwILjPlF29Kdxe5XKiVF6Vhjwe0NlMlDnvaBiqTvFzgW4TMBkg==
+
 vuex@^3.4.0:
   version "3.6.2"
   resolved "https://registry.nlark.com/vuex/download/vuex-3.6.2.tgz?cache=0&sync_timestamp=1623945253165&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fvuex%2Fdownload%2Fvuex-3.6.2.tgz#236bc086a870c3ae79946f107f16de59d5895e71"

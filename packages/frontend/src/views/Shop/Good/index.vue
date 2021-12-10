@@ -26,7 +26,7 @@
         <div class="good-info">
           <img
             class="good-image"
-            src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+            :src="good.image"
             :alt="good.name"
           >
           <div class="good-base-info">
@@ -78,6 +78,7 @@
 import {
   mapActions,
   mapMutations,
+  mapState,
 } from 'vuex';
 
 export default {
@@ -85,8 +86,14 @@ export default {
   data() {
     return {
       promise: null,
+      good: null,
       count: 0,
     };
+  },
+  computed: {
+    ...mapState({
+      user: (state) => state.user.user,
+    }),
   },
   methods: {
     ...mapMutations('good', [
@@ -95,6 +102,9 @@ export default {
     ]),
     ...mapActions('good', [
       'fetchGood',
+    ]),
+    ...mapActions('log', [
+      'createLog',
     ]),
     addToCart(good) {
       this.ADD_INTO_CART({
@@ -117,6 +127,12 @@ export default {
   },
   async created() {
     this.promise = this.fetchGood(this.$route.params.id);
+
+    this.good = await this.promise;
+    this.createLog({
+      userId: this.user?.id || null,
+      goodId: this.good.id,
+    });
   },
 };
 </script>
@@ -129,13 +145,18 @@ export default {
 
   .good-info {
     width: 800px;
+    height: 100%;
+    padding: 20px;
     display: flex;
     margin-bottom: 40px;
+    background: #fff;
   }
 
   .good-image {
     flex: 1;
     margin-right: 20px;
+    width: 400px;
+    height: 400px;
   }
 
   .good-base-info {
