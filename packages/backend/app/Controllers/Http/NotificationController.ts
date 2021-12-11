@@ -22,7 +22,7 @@ export default class NotificationController {
         total: notifications.meta.total,
       })
     } catch {
-      return ctx.response.internalServerError(buildResponse(null, 'Fetch notifications failed', -1))
+      return ctx.response.internalServerError(buildResponse(null, '获取通知列表失败', -1))
     }
   }
 
@@ -32,7 +32,7 @@ export default class NotificationController {
 
       return buildResponse(notifications[0].total)
     } catch {
-      return ctx.response.internalServerError(buildResponse(null, 'Fetch notifications failed', -1))
+      return ctx.response.internalServerError(buildResponse(null, '获取通知数量失败', -1))
     }
   }
 }

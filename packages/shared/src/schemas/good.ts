@@ -8,11 +8,11 @@ const schema: Record<string, Schema> =  {
     rules: [
       {
         required: true,
-        message: 'Name is required',
+        message: '请输入商品名称',
       },
       {
         maxLength: 15,
-        message: 'Name must be less than 15 characters',
+        message: '商品名称必须小于等于15个字符',
       }
     ],
     options: {
@@ -25,15 +25,15 @@ const schema: Record<string, Schema> =  {
     rules: [
       {
         required: true,
-        message: 'Price is required',
+        message: '请输入价格',
       },
       {
         min: 0,
-        message: 'Price must be greater than 0',
+        message: '价格必须为大于等于0',
       },
       {
         max: 9999999.99,
-        message: 'Price must be less than 99999999.99',
+        message: '价格必须小于等于99999999.99',
       },
     ]
   },
@@ -43,11 +43,11 @@ const schema: Record<string, Schema> =  {
     rules: [
       {
         required: true,
-        message: 'Description is required',
+        message: '请输入商品描述',
       },
       {
         maxLength: 255,
-        message: 'Description must be less than 255 characters',
+        message: '商品描述必须小于等于255个字符',
       }
     ],
     options: {
@@ -61,15 +61,15 @@ const schema: Record<string, Schema> =  {
     rules: [
       {
         required: true,
-        message: 'Inventory is required',
+        message: '请输入库存',
       },
       {
         min: 0,
-        message: 'Inventory must be greater than 0',
+        message: '库存必须大于等于0',
       },
       {
         max: 99999,
-        message: 'Inventory must be less than 99999',
+        message: '库存必须小于等于99999',
       }
     ]
   },
@@ -78,7 +78,7 @@ const schema: Record<string, Schema> =  {
     rules: [
       {
         required: true,
-        message: 'Image is required',
+        message: '请上传商品图片',
       },
     ],
     options: {

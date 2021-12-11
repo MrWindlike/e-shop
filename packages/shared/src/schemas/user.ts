@@ -8,11 +8,11 @@ const schema: Record<string, Schema> =  {
     rules: [
       {
         required: true,
-        message: 'Account is required',
+        message: '请输入账号',
       },
       {
         maxLength: 15,
-        message: 'Account must be less than 15 characters',
+        message: '账号必须小于等于15个字符',
       }
     ],
   },
@@ -22,11 +22,11 @@ const schema: Record<string, Schema> =  {
     rules: [
       {
         required: true,
-        message: 'Password is required',
+        message: '请输入密码',
       },
       {
         maxLength: 15,
-        message: 'Password must be less than 15 characters',
+        message: '密码必须小于等于15个字符',
       }
     ],
   }

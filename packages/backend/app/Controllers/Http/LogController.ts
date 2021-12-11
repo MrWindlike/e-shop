@@ -9,9 +9,9 @@ export default class LogController {
 
       await Log.create(params)
 
-      return buildResponse(null, 'Log created successfully')
+      return buildResponse(null, '创建日志成功')
     } catch (error) {
-      return ctx.response.internalServerError(buildResponse(null, 'Log created fail', -1, error))
+      return ctx.response.internalServerError(buildResponse(null, '创建日志失败', -1, error))
     }
   }
 
@@ -33,10 +33,10 @@ export default class LogController {
           list: logs.data,
           total: logs.meta.total,
         },
-        'Logs listed successfully'
+        '获取日志列表成功'
       )
     } catch (error) {
-      return ctx.response.internalServerError(buildResponse(null, 'Fetch logs fail', -1, error))
+      return ctx.response.internalServerError(buildResponse(null, '获取日志列表失败', -1, error))
     }
   }
 }

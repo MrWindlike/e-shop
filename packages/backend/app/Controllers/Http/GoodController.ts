@@ -16,12 +16,12 @@ export default class GoodController {
       const good = await Good.findOrFail(id)
 
       if (good.deleted) {
-        throw new Error('Good not found')
+        throw new Error('商品不存在')
       }
 
       return buildResponse(good)
     } catch {
-      return ctx.response.internalServerError(buildResponse(null, 'Good not found', -1))
+      return ctx.response.internalServerError(buildResponse(null, '商品不存在', -1))
     }
   }
 
@@ -42,7 +42,9 @@ export default class GoodController {
         total: goods.meta.total,
       })
     } catch {
-      return ctx.response.internalServerError(buildResponse(null, 'Goods fetched fail', -1))
+      return ctx.response.internalServerError(
+        buildResponse(null, '获取商品列表失败，请稍后再试', -1)
+      )
     }
   }
 
@@ -69,9 +71,9 @@ export default class GoodController {
         image: image?.fileName,
       })
 
-      return buildResponse(result)
+      return buildResponse(result, '创建商品成功')
     } catch (error) {
-      ctx.response.internalServerError(buildResponse(null, 'Create good fail', -1, error))
+      ctx.response.internalServerError(buildResponse(null, '创建商品失败', -1, error))
     }
   }
 
@@ -97,9 +99,9 @@ export default class GoodController {
         fs.unlink(`${PUBLIC_PATH}/${originalImage}`, () => {})
       }
 
-      return buildResponse(result)
+      return buildResponse(result, '更新商品信息成功')
     } catch (error) {
-      return ctx.response.internalServerError(buildResponse(null, 'Update good fail', -1, error))
+      return ctx.response.internalServerError(buildResponse(null, '更新商品信息失败', -1, error))
     }
   }
 
@@ -112,12 +114,12 @@ export default class GoodController {
         .update({ deleted: true })
 
       if (count) {
-        return buildResponse(null, 'Good deleted', 0)
+        return buildResponse(null, '删除商品成功', 0)
       } else {
-        return ctx.response.internalServerError(buildResponse(null, 'Good not found', -1))
+        return ctx.response.internalServerError(buildResponse(null, '商品不存在', -1))
       }
     } catch {
-      return ctx.response.internalServerError(buildResponse(null, 'Delete good fail', -1))
+      return ctx.response.internalServerError(buildResponse(null, '删除商品失败', -1))
     }
   }
 
@@ -133,11 +135,11 @@ export default class GoodController {
 
           return acc
         }, {}),
-        'Goods fetched success',
+        '获取商品库存成功',
         0
       )
     } catch {
-      return ctx.response.internalServerError(buildResponse(null, 'Goods fetched fail', -1))
+      return ctx.response.internalServerError(buildResponse(null, '获取商品库存失败', -1))
     }
   }
 }

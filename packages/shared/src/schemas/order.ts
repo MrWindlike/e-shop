@@ -7,7 +7,7 @@ const schema: Record<string, Schema> = {
     rules: [
       {
         required: true,
-        message: 'AddressID is required'
+        message: '请选择收货地址'
       }
     ]
   },
@@ -19,7 +19,7 @@ const schema: Record<string, Schema> = {
         rules: [
           {
             required: true,
-            message: 'ID is required',
+            message: '请选择商品',
           }
         ]
       },
@@ -29,15 +29,15 @@ const schema: Record<string, Schema> = {
         rules: [
           {
             required: true,
-            message: 'Count is required',
+            message: '必选填写商品数量',
           },
           {
             min: 1,
-            message: 'Count must be greater than 0',
+            message: '商品数量必须大于0',
           },
           {
             max: 99999999,
-            message: 'Count must be less than 99999999',
+            message: '商品数量不能大于99999999',
           }
         ]
       }

@@ -19,12 +19,12 @@ export default class AdminController {
       if (admins.length && (await Hash.verify(admins[0].password, params.password))) {
         const token = await ctx.auth.use('admin').generate(admins[0], { expiresIn: '1days' })
 
-        return buildResponse(token)
+        return buildResponse(token, '登录成功')
       }
 
-      return ctx.response.badRequest(buildResponse(null, 'Invalid credentials', -1))
+      return ctx.response.badRequest(buildResponse(null, '账号或密码不正确', -1))
     } catch {
-      return ctx.response.badRequest(buildResponse(null, 'Invalid credentials', -1))
+      return ctx.response.badRequest(buildResponse(null, '账号或密码不正确', -1))
     }
   }
 
@@ -32,9 +32,9 @@ export default class AdminController {
     try {
       await ctx.auth.use('admin').revoke()
 
-      return buildResponse(null, 'Logout successfully')
+      return buildResponse(null, '退出登录成功')
     } catch {
-      return ctx.response.internalServerError(buildResponse(null, 'Logout failed', -1))
+      return ctx.response.internalServerError(buildResponse(null, '退出登录失败', -1))
     }
   }
 

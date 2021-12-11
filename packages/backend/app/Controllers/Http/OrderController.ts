@@ -30,7 +30,7 @@ export default class OrderController {
       })
     } catch (error) {
       return ctx.response.internalServerError(
-        buildResponse(null, 'Orders fetched fail', -1, error.toString())
+        buildResponse(null, '获取订单列表失败，请稍后再试', -1, error.toString())
       )
     }
   }
@@ -71,7 +71,7 @@ export default class OrderController {
           if (!data) {
             await trx.rollback()
             return ctx.response.internalServerError(
-              buildResponse(null, 'good info has changed, please refresh', -2)
+              buildResponse(null, '商品信息有变化，请重新尝试下单', -2)
             )
           }
 
@@ -86,7 +86,7 @@ export default class OrderController {
           })
 
           if (!affectedRows) {
-            throw new Error(`Not enough inventory`)
+            throw new Error(`商品库存不足`)
           }
         }),
         trx.insertQuery().table('notifications').insert({
@@ -98,10 +98,12 @@ export default class OrderController {
 
       await trx.commit()
 
-      return buildResponse(null, 'Order created successfully')
+      return buildResponse(null, '创建订单成功')
     } catch (error) {
       await trx.rollback()
-      return ctx.response.internalServerError(buildResponse(null, error.message))
+      return ctx.response.internalServerError(
+        buildResponse(null, '创建订单失败，请稍后再试', -1, error)
+      )
     }
   }
 
@@ -126,7 +128,7 @@ export default class OrderController {
       })
     } catch (error) {
       return ctx.response.internalServerError(
-        buildResponse(null, 'Orders fetched fail', -1, error.toString())
+        buildResponse(null, '获取订单列表失败，请稍后再试', -1, error.toString())
       )
     }
   }

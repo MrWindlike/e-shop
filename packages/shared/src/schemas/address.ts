@@ -3,52 +3,52 @@ import { SchemaType } from '../const/schema';
 import { PHONE } from '../const/regex';
 
 const schema: Record<string, Schema> = {
-    name: {
-        type: SchemaType.String,
-        defaultValue: '',
-        rules: [
-            {
-                required: true,
-                message: 'Name is required',
-            },
-            {
-                maxLength: 15,
-                message: 'Name must be less than 15 characters',
-            }
-        ]
-    },
-    phone: {
-        type: SchemaType.String,
-        defaultValue: '',
-        rules: [
-            {
-                required: true,
-                message: 'Phone is required',
-            },
-            {
-                maxLength: 11,
-                message: 'Phone must be less than 11 characters',
-            },
-            {
-                regex: PHONE,
-                message: 'Phone must be a valid phone number',
-            }
-        ]
-    },
-    address: {
-        type: SchemaType.String,
-        defaultValue: '',
-        rules: [
-            {
-                required: true,
-                message: 'Address is required',
-            },
-            {
-                maxLength: 63,
-                message: 'Address must be less than 63 characters',
-            }
-        ]
-    }
+  name: {
+    type: SchemaType.String,
+    defaultValue: '',
+    rules: [
+      {
+        required: true,
+        message: '请输入姓名',
+      },
+      {
+        maxLength: 15,
+        message: '姓名必须小于等于15个字符',
+      }
+    ]
+  },
+  phone: {
+    type: SchemaType.String,
+    defaultValue: '',
+    rules: [
+      {
+        required: true,
+        message: '请输入手机号',
+      },
+      {
+        maxLength: 11,
+        message: '手机号必须小于等于11个字符',
+      },
+      {
+        regex: PHONE,
+        message: '请输入正确的手机号',
+      }
+    ]
+  },
+  address: {
+    type: SchemaType.String,
+    defaultValue: '',
+    rules: [
+      {
+        required: true,
+        message: '请输入地址',
+      },
+      {
+        maxLength: 63,
+        message: '地址必须小于等于63个字符',
+      }
+    ]
+  }
 };
 
 export default schema;

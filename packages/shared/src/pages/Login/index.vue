@@ -10,20 +10,20 @@
       <el-form-item prop="account">
         <el-input
           v-model="form.account"
-          placeholder="Please enter your account"
+          placeholder="请输入账号"
         ></el-input>
       </el-form-item>
       <el-form-item prop="password">
         <el-input
           v-model="form.password"
-          placeholder="Please enter your password"
+          placeholder="请输入密码"
           type="password"
         ></el-input>
       </el-form-item>
       <el-form-item prop="confirm" v-if="type === 'register'">
         <el-input
           v-model="form.confirm"
-          placeholder="Please enter your password again"
+          placeholder="请再次输入密码"
           type="password"
         ></el-input>
       </el-form-item>
@@ -32,19 +32,19 @@
         type="primary"
         class="v-login-page-button"
         @click="login"
-      >Login</el-button>
+      >登录</el-button>
       <el-button
         v-else
         type="primary"
         class="v-login-page-button"
         @click="register"
-      >Register</el-button>
+      >注册</el-button>
       <div class="v-login-page-tip" v-if="canRegister">
         <template v-if="type === 'login'">
-          No Account? <el-button type="text" @click="switchForm">To Create One</el-button>
+          还没有账号？ <el-button type="text" @click="switchForm">点此注册</el-button>
         </template>
         <template v-else>
-          Have Account? <el-button type="text" @click="switchForm">To Login</el-button>
+          已经有账号？ <el-button type="text" @click="switchForm">去登陆</el-button>
         </template>
       </div>
     </el-form>
