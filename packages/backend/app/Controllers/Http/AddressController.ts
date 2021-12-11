@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Address from 'App/Models/Address'
-import addressSchema from 'shared/lib/schemas/address'
+import addressSchema from 'shared/src/schemas/address'
 import { buildPagination, buildResponse } from 'App/Utils/builder'
 import { createSchema } from 'App/Utils/schema'
 
@@ -12,6 +12,7 @@ export default class GoodController {
       const user = ctx.auth.user
       const addresses = (
         await Address.query()
+          .whereNull('deleted')
           .where('userId', user?.id || 0)
           .paginate(pagination.page, pagination.perPage)
       ).toJSON()
@@ -21,10 +22,10 @@ export default class GoodController {
           list: addresses.data,
           total: addresses.meta.total,
         },
-        'Addresses fetched successfully'
+        '地址列表获取成功'
       )
     } catch {
-      return ctx.response.internalServerError(buildResponse(null, 'Addresses fetched fail', -1))
+      return ctx.response.internalServerError(buildResponse(null, '地址列表获取失败', -1))
     }
   }
 
@@ -50,9 +51,11 @@ export default class GoodController {
         userId: user?.id,
       })
 
-      return buildResponse(result, 'Address created successfully')
+      return buildResponse(result, '创建地址成功')
     } catch (error) {
-      return ctx.response.internalServerError(buildResponse(null, error.message, -1))
+      return ctx.response.internalServerError(
+        buildResponse(null, '创建地址失败，请稍后再试', -1, error)
+      )
     }
   }
 
@@ -68,12 +71,12 @@ export default class GoodController {
         .update(params)
 
       if (count) {
-        return buildResponse(null, 'Address updated successfully')
+        return buildResponse(null, '更新地址信息成功')
       } else {
-        return ctx.response.badRequest(buildResponse(null, 'Address not found', -1))
+        return ctx.response.badRequest(buildResponse(null, '该地址不存在', -1))
       }
     } catch {
-      return ctx.response.internalServerError(buildResponse(null, 'Address updated fail', -1))
+      return ctx.response.internalServerError(buildResponse(null, '更新地址信息失败', -1))
     }
   }
 
@@ -88,12 +91,12 @@ export default class GoodController {
         .update({ deleted: true })
 
       if (count) {
-        return buildResponse(null, 'Address deleted successfully')
+        return buildResponse(null, '删除地址成功')
       } else {
-        return ctx.response.badRequest(buildResponse(null, 'Address not fount', -1))
+        return ctx.response.badRequest(buildResponse(null, '该地址不存在', -1))
       }
     } catch (error) {
-      return ctx.response.internalServerError(buildResponse(null, error.message, -1))
+      return ctx.response.internalServerError(buildResponse(null, '删除地址失败', -1, error))
     }
   }
 }

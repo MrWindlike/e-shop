@@ -1,0 +1,13 @@
+{
+    "eslint.format.enable": true,
+    "eslint.workingDirectories": [
+        "packages/backend",
+        "packages/frontend",
+        "packages/admin",
+        "packages/distribution",
+        "packages/shared",
+    ],
+    "eslint.alwaysShowStatus": true,
+    "eslint.runtime": "node",
+    "eslint.packageManager": "yarn",
+}
