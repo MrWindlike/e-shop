@@ -8,6 +8,7 @@ export interface CreatedOrderParams {
   goods: {
     id: number;
     count: number;
+    price: number;
   }[];
 }
 

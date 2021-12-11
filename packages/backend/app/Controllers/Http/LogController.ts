@@ -7,9 +7,9 @@ export default class LogController {
     try {
       const params = ctx.request.body()
 
-      const result = await Log.create(params)
+      await Log.create(params)
 
-      return buildResponse(result, 'Log created successfully')
+      return buildResponse(null, 'Log created successfully')
     } catch (error) {
       return ctx.response.internalServerError(buildResponse(null, 'Log created fail', -1, error))
     }
