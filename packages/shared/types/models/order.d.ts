@@ -1,5 +1,7 @@
+import { User } from './user.d';
 import { Address } from './address';
-import { Good } from './goods';
+import { Good } from './good';
+import { BaseModel } from './base';
 
 export interface CreatedOrderParams {
   addressId: number;
@@ -9,8 +11,8 @@ export interface CreatedOrderParams {
   }[];
 }
 
-export interface Order {
-  id: number;
+export type Order = BaseModel & {
   address: Address;
   goods: Good[];
+  user: User;
 }

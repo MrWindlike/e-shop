@@ -12,8 +12,8 @@ export default class OrderInfos extends BaseSchema {
        */
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
-      table.integer('price').notNullable().defaultTo(0)
-      table.integer('count').unsigned().notNullable().defaultTo(0)
+      table.decimal('price', 10, 2).notNullable()
+      table.integer('count').unsigned().notNullable()
       table.integer('status').notNullable().defaultTo(0)
       table.integer('good_id').unsigned().notNullable().references('id').inTable('goods')
       table.integer('order_id').unsigned().notNullable().references('id').inTable('orders')

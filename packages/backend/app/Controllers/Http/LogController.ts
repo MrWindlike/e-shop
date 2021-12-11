@@ -24,6 +24,7 @@ export default class LogController {
         await Log.query()
           .preload('user')
           .preload('good')
+          .orderBy('id', 'desc')
           .paginate(pagination.page, pagination.perPage)
       ).toJSON()
 

@@ -9,5 +9,10 @@ export default class UserSeeder extends BaseSeeder {
       password: 'admin',
       role: 'admin',
     })
+    await User.create({
+      account: 'admin',
+      password: 'admin',
+      role: 'distribution',
+    })
   }
 }

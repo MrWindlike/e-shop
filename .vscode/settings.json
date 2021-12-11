@@ -4,6 +4,7 @@
         "packages/backend",
         "packages/frontend",
         "packages/admin",
+        "packages/distribution",
         "packages/shared",
     ],
     "eslint.alwaysShowStatus": true,

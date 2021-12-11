@@ -73,5 +73,10 @@ declare module '@ioc:Adonis/Addons/Auth' {
       implementation: OATGuardContract<'user', 'admin'>
       config: OATGuardConfig<'user'>
     }
+
+    distribution: {
+      implementation: OATGuardContract<'user', 'distribution'>
+      config: OATGuardConfig<'user'>
+    }
   }
 }

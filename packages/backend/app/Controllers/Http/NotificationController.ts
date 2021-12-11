@@ -5,10 +5,16 @@ import { buildPagination, buildResponse } from 'App/Utils/builder'
 export default class NotificationController {
   public async list(ctx: HttpContextContract) {
     try {
-      const pagination = buildPagination(ctx.request.qs)
+      const pagination = buildPagination(ctx.request.qs())
 
       const notifications = (
-        await Notification.query().paginate(pagination.page, pagination.perPage)
+        await Notification.query()
+          .preload('order', (orderQuery) => {
+            orderQuery.preload('orderInfos')
+            orderQuery.preload('user')
+          })
+          .orderBy('id', 'desc')
+          .paginate(pagination.page, pagination.perPage)
       ).toJSON()
 
       return buildResponse({

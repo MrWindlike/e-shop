@@ -10,7 +10,6 @@ export default class UsersSchema extends BaseSchema {
       table.string('password', 255).notNullable()
       table.string('role', 31).notNullable()
       table.boolean('deleted')
-      table.string('remember_me_token').nullable()
 
       /**
        * Uses timestampz for PostgreSQL and DATETIME2 for MSSQL

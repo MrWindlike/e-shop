@@ -15,6 +15,14 @@
       :total="total"
     >
       <el-table-column
+        v-if="expandable"
+        type="expand"
+      >
+        <template v-slot="scoped">
+          <slot name="expand" v-bind="scoped"></slot>
+        </template>
+      </el-table-column>
+      <el-table-column
         v-for="col of columns"
         v-bind="col"
         :key="col.prop"
@@ -75,6 +83,10 @@ export default {
     header: {
       type: Boolean,
       default: true
+    },
+    expandable: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {

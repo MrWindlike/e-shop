@@ -33,6 +33,7 @@ export default class GoodController {
         await Good.query()
           .whereNull('deleted')
           .where('name', 'like', `%${params.name || ''}%`)
+          .orderBy('id', 'desc')
           .paginate(pagination.page, pagination.perPage)
       ).toJSON()
 
@@ -57,7 +58,7 @@ export default class GoodController {
       })
     } catch ({ messages: { errors } }) {
       if (errors.length) {
-        return ctx.response.badRequest(buildResponse(null, errors[0].message, -1))
+        return ctx.response.badRequest(buildResponse(null, errors[0].message, -1, errors))
       }
     }
 

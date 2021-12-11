@@ -9,7 +9,6 @@
     <div class="v-header-user-box">
       <el-popover
         v-if="notificationList"
-        style="max-height: 300px; overflow: auto;"
       >
         <template #reference>
           <el-badge

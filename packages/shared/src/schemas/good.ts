@@ -32,7 +32,7 @@ const schema: Record<string, Schema> =  {
         message: 'Price must be greater than 0',
       },
       {
-        max: 99999999.99,
+        max: 9999999.99,
         message: 'Price must be less than 99999999.99',
       },
     ]
@@ -68,8 +68,8 @@ const schema: Record<string, Schema> =  {
         message: 'Inventory must be greater than 0',
       },
       {
-        max: 99999999,
-        message: 'Inventory must be less than 99999999',
+        max: 99999,
+        message: 'Inventory must be less than 99999',
       }
     ]
   },

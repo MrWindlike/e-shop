@@ -4,5 +4,5 @@ Route.post('admin/login', 'AdminController.login')
 
 Route.group(() => {
   Route.get('admin/admin', 'AdminController.show')
-  Route.get('admin/logout', 'AdminController.logout')
+  Route.delete('admin/logout', 'AdminController.logout')
 }).middleware('auth:admin')
