@@ -40,10 +40,11 @@ const router = new VueRouter({
 router.beforeEach(async (to, from, next) => {
   const { requiresAuth } = to.meta || {};
   const user = await store.dispatch('user/checkAuth');
+  const defaultTo = to.matched.length === 0 ? '/' : undefined;
 
   if (requiresAuth) {
     if (user) {
-      next();
+      next(defaultTo);
     } else {
       next({ name: 'Login' });
     }
@@ -53,7 +54,7 @@ router.beforeEach(async (to, from, next) => {
     if (isLoginPage && user) {
       next({ name: 'Goods' });
     } else {
-      next();
+      next(defaultTo);
     }
   }
 });
