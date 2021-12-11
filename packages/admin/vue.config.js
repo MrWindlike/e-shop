@@ -21,5 +21,25 @@ module.exports = {
       },
       extensions: ['.js', '.vue', '.json', '.ts', '.d.ts'],
     },
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          'element-ui': {
+            test: /[\\/]node_modules[\\/]element-ui[\\/]/,
+            priority: -10,
+            reuseExistingChunk: true,
+          },
+          'vue': {
+            test: /[\\/]node_modules[\\/]vue.*[\\/]/,
+            priority: -10,
+            reuseExistingChunk: true,
+          },
+          default: {
+            priority: 0,
+            reuseExistingChunk: true,
+          }
+        }
+      }
+    }
   },
 };
