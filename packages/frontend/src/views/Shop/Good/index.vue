@@ -111,6 +111,7 @@ export default {
         ...good,
         count: this.count,
       });
+      this.$message.success('已加入购物车');
     },
     buy(good) {
       this.SET_SELECTED_GOODS([{

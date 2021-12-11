@@ -86,7 +86,7 @@ export default {
     list() {
       return this.goods.map((good) => ({
         ...good,
-        total: good.price * good.count,
+        total: (good.price * good.count).toFixed(2) * 1,
       }));
     },
   },

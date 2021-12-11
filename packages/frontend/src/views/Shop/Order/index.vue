@@ -23,9 +23,10 @@
             </el-table-column>
             <el-table-column
               label="价格"
+              prop="price"
             >
               <template v-slot="scoped">
-                ￥{{ scoped.row.good.price }}
+                ￥{{ scoped.row.price }}
               </template>
             </el-table-column>
             <el-table-column
@@ -50,6 +51,7 @@
       <el-table-column
         label="地址"
         prop="address"
+        show-overflow-tooltip
       >
         <template v-slot="{row}">
           {{ row.address.address }}
@@ -101,7 +103,7 @@ export default {
   methods: {
     calcTotal(order) {
       return order.orderInfos.reduce((total, item) => (
-        total + item.good.price * item.count
+        total + item.price * item.count
       ), 0).toFixed(2) * 1;
     },
   },

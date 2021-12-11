@@ -96,7 +96,7 @@ export default {
       });
     },
     onRemove(good) {
-      this.REMOVE_FROM_CART(good.id);
+      this.REMOVE_FROM_CART([good.id]);
     },
     pay() {
       if (this.selected.length === 0) {
@@ -107,6 +107,9 @@ export default {
       this.SET_SELECTED_GOODS(this.selected);
       this.$router.push({
         name: 'Pay',
+        query: {
+          fromCart: true,
+        },
       });
     },
   },

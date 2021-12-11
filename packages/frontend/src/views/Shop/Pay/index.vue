@@ -65,6 +65,7 @@
 import {
   mapState,
   mapActions,
+  mapMutations,
 } from 'vuex';
 import AddressDialog from './components/Address.vue';
 import GoodTable from '../components/GoodTable.vue';
@@ -98,6 +99,9 @@ export default {
     total() {
       return this.list.reduce((total, good) => total + good.total, 0).toFixed(2) * 1;
     },
+    fromCart() {
+      return this.$route.query.fromCart;
+    },
   },
   methods: {
     ...mapActions('address', [
@@ -108,6 +112,9 @@ export default {
     ]),
     ...mapActions('order', [
       'createOrder',
+    ]),
+    ...mapMutations('good', [
+      'REMOVE_FROM_CART',
     ]),
     buildAddress(address) {
       return `${address.name}/${address.phone}/${address.address}`;
@@ -156,6 +163,10 @@ export default {
       };
 
       await this.createOrder(order);
+
+      if (this.fromCart) {
+        this.REMOVE_FROM_CART(this.selectedGoods.map((good) => good.id));
+      }
 
       this.$router.push('/');
     },

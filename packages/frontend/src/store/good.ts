@@ -78,8 +78,8 @@ const mutations: MutationTree<State> = {
 
     localStorage.setItem('cart', JSON.stringify(localState.cart));
   },
-  REMOVE_FROM_CART(localState, id) {
-    localState.cart = localState.cart.filter((item) => item.id !== id);
+  REMOVE_FROM_CART(localState, ids) {
+    localState.cart = localState.cart.filter((item) => ids.includes(item.id) === false);
     localStorage.setItem('cart', JSON.stringify(localState.cart));
   },
   UPDATE_CART_COUNT(localState, { id, count }) {

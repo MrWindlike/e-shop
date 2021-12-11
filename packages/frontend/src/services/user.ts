@@ -16,7 +16,7 @@ export function login(params: LoginParams): Promise<ResponseResult<Token>> {
 }
 
 export function logout(): Promise<ResponseResult<null>> {
-  return http.post('/shop/logout');
+  return http.delete('/shop/logout');
 }
 
 export function register(params: RegisterParams): Promise<ResponseResult<Token>> {
