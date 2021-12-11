@@ -16,7 +16,6 @@ const actions: ActionTree<State, null> = {
     const { data: { token, type } } = await adminService.login(params);
 
     setToken(`${type} ${token}`);
-    this.dispatch('fetchAdmin');
 
     return token;
   },

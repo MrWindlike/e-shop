@@ -1,6 +1,6 @@
 <template>
   <v-login
-    title="Shop"
+    title="商城后台管理系统"
     :type="type"
     :can-register="false"
     @login="onLogin"

@@ -40,7 +40,7 @@ export default {
     ...mapState('admin', ['admin']),
     headerProps() {
       return {
-        title: '后台管理系统',
+        title: '商城后台管理系统',
         user: this.admin,
         userMenus: [
           {
@@ -56,9 +56,10 @@ export default {
     onTitleClick() {
       this.$router.push({ name: 'Good' });
     },
-    onUserMenuClick(key) {
+    async onUserMenuClick(key) {
       if (key === 'logout') {
-        this.logout();
+        await this.logout();
+        this.$router.push({ name: 'Login' });
       }
     },
   },

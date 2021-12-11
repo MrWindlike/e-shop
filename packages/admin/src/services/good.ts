@@ -15,11 +15,13 @@ export function fetchGood(id: string): Promise<ResponseResult<Good>> {
   return http.get(`/shop/good/${id}`);
 }
 
-export function createGood(data: Good): Promise<ResponseResult<Good>> {
+export function createGood(data: Good & { image: Blob; }): Promise<ResponseResult<Good>> {
   const form = new FormData();
 
   Object.keys(data).forEach((key) => {
-    form.append(key, String(data[key as keyof Good]));
+    const value = data[key as keyof Good];
+
+    form.append(key, value as any);
   });
 
   return http.post('/shop/good', form);

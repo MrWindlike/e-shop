@@ -3,6 +3,7 @@
     width="400"
     :title="good ? '编辑商品' : '添加商品'"
     :visible.sync="value"
+    @closed="onCancel"
   >
     <el-form
       ref="form"
@@ -128,7 +129,10 @@ export default {
     visible(value) {
       if (value && this.good) {
         this.form = {
-          ...this.good,
+          name: this.good.name,
+          description: this.good.description,
+          price: this.good.price,
+          inventory: this.good.inventory,
           image: [{
             name: this.good.image,
             url: `${HOST}:${PORT}/${this.good.image}`,
@@ -141,6 +145,9 @@ export default {
   },
   methods: {
     reset() {
+      this.form = {
+        ...BASE_FORM,
+      };
       this.$refs.form.resetFields();
     },
     onUploadChange(file, fileList) {
@@ -164,6 +171,7 @@ export default {
     },
     onCancel() {
       this.value = false;
+      this.$emit('cancel');
     },
     onConfirm() {
       this.$refs.form.validate((valid) => {

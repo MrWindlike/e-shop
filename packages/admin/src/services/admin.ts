@@ -16,5 +16,5 @@ export function login(params: LoginParams): Promise<ResponseResult<Token>> {
 }
 
 export function logout(): Promise<ResponseResult<null>> {
-  return http.post('/admin/logout');
+  return http.delete('/admin/logout');
 }

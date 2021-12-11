@@ -58,6 +58,7 @@
       :submitting="submitting"
       :good="editedGood"
       @confirm="onConfirm"
+      @cancel="onCancel"
     />
   </v-manager>
 </template>
@@ -164,7 +165,11 @@ export default {
     },
     async onDelete(id) {
       await this.deleteGood(id);
-      this.fetchList();
+      this.fetch();
+    },
+    onCancel() {
+      this.editedGood = null;
+      this.goodDialogVisible = false;
     },
     async onConfirm(form) {
       try {
