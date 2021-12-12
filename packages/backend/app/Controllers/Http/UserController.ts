@@ -22,13 +22,13 @@ export default class UserController {
       ])
 
       if (users.length) {
-        return buildResponse(null, '账号已存在', -1)
+        return ctx.response.badRequest(buildResponse(null, '账号已存在', -1))
       }
     } catch ({ messages: { errors } }) {
       if (errors.length) {
         ctx.response.status(406)
 
-        return buildResponse(null, errors[0].message, -1)
+        return ctx.response.badRequest(buildResponse(null, errors[0].message, -1))
       }
     }
 
@@ -42,9 +42,9 @@ export default class UserController {
 
       return buildResponse(token, '创建账号成功', 0)
     } catch (error) {
-      ctx.response.status(500)
-
-      return buildResponse(null, '创建账号失败，请稍后再试', -1, error)
+      return ctx.response.internalServerError(
+        buildResponse(null, '创建账号失败，请稍后再试', -1, error)
+      )
     }
   }
 
