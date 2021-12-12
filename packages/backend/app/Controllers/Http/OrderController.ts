@@ -65,7 +65,11 @@ export default class OrderController {
         ...goods.map(async (good) => {
           const data = await Good.query().where('id', good.id).where('price', good.price).first()
           const [{ affectedRows }] = await trx.rawQuery(
-            `UPDATE goods SET inventory = inventory - ${good.count} WHERE id = ${good.id} AND inventory >= ${good.count}`
+            `UPDATE goods SET inventory = inventory - :count WHERE id = :id AND inventory >= :count`,
+            {
+              count: good.count,
+              id: good.id,
+            }
           )
 
           if (!data) {
