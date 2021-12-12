@@ -7,6 +7,7 @@
     "build": "vue-cli-service build --modern",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
+    "lint:fix": "vue-cli-service lint --fix",
     "pre-commit": "lint-staged",
     "kill": "kill-port --port 8080"
   },
