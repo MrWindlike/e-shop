@@ -59,6 +59,7 @@
           :before-upload="beforeUpload"
           :on-change="onUploadChange"
           :http-request="onUploadHttpRequest"
+          :on-exceed="onExceed"
         >
           <i class="el-icon-plus" />
         </el-upload>
@@ -182,6 +183,9 @@ export default {
     },
     onUploadHttpRequest() {
       // 修改默认上传行为, 不做任何操作, 提交的时候再进行上传
+    },
+    onExceed() {
+      this.$message.error('只能上传一张图片');
     },
   },
 };
