@@ -58,6 +58,7 @@ import {
   Input,
   Button,
 } from 'element-ui';
+import { transformSchemaToRules } from '../../utils/schema';
 import userSchema from '../../schemas/user';
 
 export default {
@@ -89,30 +90,38 @@ export default {
         password: '',
         confirm: '',
       },
-      rules: Object.keys(userSchema).reduce((result, key)=> {
-        const schema = userSchema[key];
-
-        result[key] = schema.rules;
-
-        return result;
-      }, {
+    };
+  },
+  computed: {
+    rules() {
+      return this.type === 'login' ? {
+        account: [{
+          required: true,
+          message: '请输入账号'
+        }],
+        password: [{
+          required: true,
+          message: '请输入密码'
+        }]
+      } : {
+        ...transformSchemaToRules(userSchema),
         confirm: [
           {
             required: true,
-            message: 'Please enter your password again',
+            message: '请再次输入密码',
           },
           {
             validator: (rule, value, callback)=> {
               if (value !== this.form.password) {
-                callback(new Error('The two passwords that you entered do not match'));
+                callback(new Error('两次输入的密码不一致'));
               } else {
                 callback();
               }
             },
           },
         ]
-      }),
-    };
+      };
+    },
   },
   methods: {
     switchForm() {
