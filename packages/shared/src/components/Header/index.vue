@@ -31,7 +31,9 @@
             <el-icon class="v-header-notification-content-icon" name="chat-line-round"></el-icon>
             <span class="v-header-notification-content">
               <div class="v-header-notification-text" :title="notification.content">{{ notification.content }}</div>
-              <div class="v-header-notification-time">{{ notification.createdTime }}</div>
+              <div class="v-header-notification-time">
+                {{ (new Date(notification.createdTime)).toLocaleString() }}
+              </div>
             </span>
           </div>
         </div>
