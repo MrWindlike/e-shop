@@ -36,6 +36,7 @@ export default class OrderController {
   }
 
   public async create(ctx: HttpContextContract) {
+    const mq = require('@ioc:Adonis/Utils/MQ')
     const { addressId, goods } = ctx.request.body()
     const user = ctx.auth.user
     const schema = createSchema(orderSchema)
@@ -52,14 +53,17 @@ export default class OrderController {
     }
 
     const trx = await Database.transaction()
+    let orderId = null
 
     try {
-      const [orderId] = await trx.insertQuery().table('orders').insert({
+      const [id] = await trx.insertQuery().table('orders').insert({
         address_id: addressId,
         user_id: user?.id,
         created_at: new Date(),
         updated_at: new Date(),
       })
+
+      orderId = id
 
       await Promise.all([
         ...goods.map(async (good) => {
@@ -73,10 +77,10 @@ export default class OrderController {
           )
 
           if (!data) {
-            await trx.rollback()
-            return ctx.response.internalServerError(
-              buildResponse(null, '商品信息有变化，请重新尝试下单', -2)
-            )
+            throw {
+              message: '商品信息有变化，请重新尝试下单',
+              code: -2
+            }
           }
 
           await trx.insertQuery().table('order_infos').insert({
@@ -90,14 +94,16 @@ export default class OrderController {
           })
 
           if (!affectedRows) {
-            throw new Error(`商品库存不足`)
+            throw {
+              message: '商品库存不足',
+              code: -1
+            }
           }
         }),
-        trx.insertQuery().table('notifications').insert({
-          order_id: orderId,
-          created_at: new Date(),
-          updated_at: new Date(),
-        }),
+        await mq.send('distribution', {
+          type: 'commit',
+          data: { orderId }
+        })
       ])
 
       await trx.commit()
@@ -105,8 +111,12 @@ export default class OrderController {
       return buildResponse(null, '创建订单成功')
     } catch (error) {
       await trx.rollback()
+      await mq.send('distribution', {
+        type: 'rollback',
+        data: { orderId }
+      })
       return ctx.response.internalServerError(
-        buildResponse(null, '创建订单失败，请稍后再试', -1, error)
+        buildResponse(null, error.message || '创建订单失败，请稍后再试', error.code || -1, error)
       )
     }
   }
