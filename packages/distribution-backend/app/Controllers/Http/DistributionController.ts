@@ -23,8 +23,8 @@ export default class DistributionController {
       }
 
       return ctx.response.badRequest(buildResponse(null, '账号或密码不正确', -1))
-    } catch {
-      return ctx.response.badRequest(buildResponse(null, '账号或密码不正确', -1))
+    } catch(error) {
+      return ctx.response.badRequest(buildResponse(null, '账号或密码不正确', -1, error))
     }
   }
 

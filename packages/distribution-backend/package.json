@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "serve": "node ace serve --watch",
+    "serve": "npm run kill && node ace serve --watch",
+    "debug": "npm run kill && node --inspect-brk ace serve --watch",
     "build": "node ace build --production",
     "start": "node server.js",
     "lint": "eslint . --ext=.ts",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "kill": "kill-port --port 3000 && kill-port --port 9229"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^5.3.0",
@@ -16,6 +18,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-adonis": "^2.1.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "kill-port": "^1.6.1",
     "pino-pretty": "^7.3.0",
     "prettier": "^2.5.1",
     "typescript": "~4.5",
@@ -25,11 +28,15 @@
   "dependencies": {
     "@adonisjs/auth": "^8.0.10",
     "@adonisjs/core": "^5.4.0",
+    "@adonisjs/lucid": "^16.3.2",
     "@adonisjs/repl": "^3.1.0",
     "amqplib": "^0.8.0",
+    "axios": "^0.24.0",
+    "mysql": "^2.18.1",
+    "phc-argon2": "^1.1.2",
     "proxy-addr": "^2.0.7",
     "reflect-metadata": "^0.1.13",
-    "source-map-support": "^0.5.21",
-    "shared": "^1.0.0"
+    "shared": "^1.0.0",
+    "source-map-support": "^0.5.21"
   }
 }

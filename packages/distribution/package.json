@@ -3,18 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "npm run kill && vue-cli-service serve",
+    "serve": "npm run kill && cross-env API_PORT=3000 vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "lint:fix": "vue-cli-service lint --fix",
     "pre-commit": "lint-staged",
-    "kill": "kill-port --port 8000"
+    "kill": "kill-port --port 8888"
   },
   "dependencies": {
     "@vue/composition-api": "^1.4.1",
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
+    "cross-env": "^7.0.3",
     "element-ui": "^2.15.6",
     "register-service-worker": "^1.7.1",
     "shared": "^1.0.0",
@@ -42,6 +43,7 @@
     "@vue/eslint-config-typescript": "^7.0.0",
     "@vue/test-utils": "^1.0.3",
     "babel-plugin-component": "^1.1.1",
+    "cross-env": "^7.0.3",
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^6.2.2",

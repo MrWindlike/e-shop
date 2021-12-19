@@ -9,10 +9,6 @@ export default class NotificationController {
 
       const notifications = (
         await Notification.query()
-          .preload('order', (orderQuery) => {
-            orderQuery.preload('orderInfos')
-            orderQuery.preload('user')
-          })
           .orderBy('id', 'desc')
           .paginate(pagination.page, pagination.perPage)
       ).toJSON()

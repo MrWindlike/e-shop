@@ -7,6 +7,7 @@ export default class Notifications extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.integer('order_id').unsigned().nullable()
+      table.string('content', 255).nullable()
       table.boolean('is_read').defaultTo(false)
 
       /**

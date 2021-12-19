@@ -9,7 +9,7 @@ const actions: ActionTree<null, null> = {
 
     const list = data.list.map((notification) => ({
       id: notification.id,
-      content: `${notification.order.user.account}的订单需要您发货，请及时处理`,
+      content: notification.content,
       createdTime: notification.created_at,
     }));
 

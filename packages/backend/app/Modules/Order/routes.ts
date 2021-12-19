@@ -8,4 +8,4 @@ Route.group(() => {
 
 Route.group(() => {
   Route.get('distribution/orders', 'OrderController.all')
-}).middleware('auth:distribution')
+}).middleware('api:distribution')

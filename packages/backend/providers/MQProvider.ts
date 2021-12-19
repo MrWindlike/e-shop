@@ -1,35 +1,5 @@
 import { ApplicationContract } from '@ioc:Adonis/Core/Application'
-import amqplib from 'amqplib';
-
-class MQ {
-   constructor(app, options) {
-    this.app = app
-    this.url = options.url
-    this.mq = amqplib.connect(this.url)
-  }
-
-  async send(name, info) {
-    const mq = await this.mq;
-    const channel = await mq.createChannel()
-
-    await channel.assertQueue(name);
-    await channel.sendToQueue(name, Buffer.from(JSON.stringify(info)))
-  }
-
-  async on(name, callback) {
-    const mq = await this.mq;
-    const channel = await mq.createChannel()
-
-    await channel.assertQueue(name)
-    channel.consume(name, async (info)=> {
-      const result = await callback(info)
-
-      if (result !== false) {
-        channel.ack(info)
-      }
-    })
-  }
-}
+import MQ from 'shared/src/utils/mq'
 
 export default class MQProvider {
   constructor(protected app: ApplicationContract) {
@@ -38,20 +8,15 @@ export default class MQProvider {
 
   public register() {
     // Register your own bindings
-    this.app.container.singleton('Adonis/Utils/MQ', ()=> {
+    this.app.container.singleton('Adonis/Utils/MQ', () => {
       const config = this.app.container.resolveBinding('Adonis/Core/Config').get('mq', {})
 
-      return new MQ(this.app, config)
+      return new MQ(config)
     })
   }
 
   public async boot() {
     // IoC container is ready
-    const mq = require('@ioc:Adonis/Utils/MQ');
-
-    mq.on('distribution', (info) => {
-      console.log(info.content.toString())
-    })
   }
 
   public async ready() {

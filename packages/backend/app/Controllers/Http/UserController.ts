@@ -81,7 +81,7 @@ export default class UserController {
     }
   }
 
-  public async list(ctx: HttpContextContract) {
+  public async list() {
     const users = await User.all()
 
     return users

@@ -2,7 +2,7 @@
   "extends": "./node_modules/adonis-preset-ts/tsconfig",
   "include": [
     "**/*"
-  ],
+, "../distribution-backend/database/migrations/1638952710127_notifications.ts"  ],
   "exclude": [
     "node_modules",
     "build"

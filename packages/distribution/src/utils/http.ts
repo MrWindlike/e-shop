@@ -23,7 +23,7 @@ export function getToken(): string {
 }
 
 const http = axios.create({
-  baseURL: `${HOST}:${PORT}`,
+  baseURL: `${HOST}:${3000}`,
 });
 
 http.interceptors.request.use((request) => ({

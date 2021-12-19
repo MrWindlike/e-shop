@@ -17,7 +17,7 @@ import { AuthConfig } from '@ioc:Adonis/Addons/Auth'
 |
 */
 const authConfig: AuthConfig = {
-  guard: 'api',
+  guard: 'distribution',
   guards: {
     /*
     |--------------------------------------------------------------------------
@@ -32,7 +32,7 @@ const authConfig: AuthConfig = {
     | on cookies/sessions.
     |
     */
-    api: {
+    distribution: {
       driver: 'oat',
 
       /*
@@ -87,7 +87,7 @@ const authConfig: AuthConfig = {
         | of the mentioned columns to find their user record.
         |
         */
-        uids: ['email'],
+        uids: ['account'],
 
         /*
         |--------------------------------------------------------------------------

@@ -79,7 +79,7 @@ export default class OrderController {
           if (!data) {
             throw {
               message: '商品信息有变化，请重新尝试下单',
-              code: -2
+              code: -2,
             }
           }
 
@@ -96,25 +96,21 @@ export default class OrderController {
           if (!affectedRows) {
             throw {
               message: '商品库存不足',
-              code: -1
+              code: -1,
             }
           }
         }),
-        await mq.send('distribution', {
-          type: 'commit',
-          data: { orderId }
-        })
       ])
 
       await trx.commit()
+      await mq.send('distribution', {
+        type: 'commit',
+        data: { orderId, content: `${user?.account}的订单需要您发货，请及时处理` },
+      })
 
       return buildResponse(null, '创建订单成功')
     } catch (error) {
       await trx.rollback()
-      await mq.send('distribution', {
-        type: 'rollback',
-        data: { orderId }
-      })
       return ctx.response.internalServerError(
         buildResponse(null, error.message || '创建订单失败，请稍后再试', error.code || -1, error)
       )

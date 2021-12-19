@@ -21,8 +21,9 @@ export default {
     'vue',
     '@vue/composition-api',
     'axios',
+    'amqplib',
     /element-ui/,
-    /@babel\/runtime/
+    /@babel\/runtime/,
   ],
   plugins: [
     resolve({
