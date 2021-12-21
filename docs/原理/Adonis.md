@@ -1,3 +1,59 @@
+### 应用生命周期
+想要知道一个应用的生命周期，首先我们要看看应用是怎么启动的，可以在入口文件中找到对应的启动代码：
+```js
+new Ignitor(__dirname).httpServer().start()
+```
+
+可以看到，最终调用`HttpServer`的`start`函数进行启动，我们来看下这个`start`函数都做些什么：
+```js
+class HttpServer {
+    async start(serverCallback) {
+        try {
+            // 初始化应用实例
+            await this.wire();
+            // 启动HTTP服务
+            this.setServer();
+            this.createServer(serverCallback);
+            this.monitorHttpServer();
+            await this.listen();  // application.state = 'ready'
+            this.signalsListener.listen(() => this.close());
+        }
+        catch (error) {
+            await new ErrorHandler_1.ErrorHandler(this.application).handleError(error);
+        }
+    }
+}
+```
+
+然后看下`wire`函数是怎么进行初始化应用实例：
+```js
+class HttpServer {
+    async wire() {
+        if (this.wired) {
+            return;
+        }
+        /**
+         * Setting up the application.
+         */
+        await this.application.setup();  // application.state = 'setup'
+        /**
+         * Registering providers
+         */
+        await this.application.registerProviders();  // application.state = 'registered'
+        /**
+         * Booting providers
+         */
+        await this.application.bootProviders();  // application.state = 'boot'
+        /**
+         * Importing preloaded files
+         */
+        await this.application.requirePreloads();
+    }
+}
+```
+
+![Application](https://res.cloudinary.com/adonis-js/image/upload/q_auto,f_auto/v1617132548/v5/application-boot-lifecycle.png)
+
 ### HTTP生命周期
 
 当接收到一个请求后，会执行处理请求的处理函数，包含以下这些阶段：
@@ -114,6 +170,46 @@ class Provider {
 
 ### Middleware
 中间件可以参与到应用程序的请求生命周期中，他们将按顺序执行来处理请求和响应。
+
+#### 使用
+先编写中间件并进行注册，然后在中间件的处理函数中进行相应处理并调用`next`函数执行下一个中间件或者路由处理函数，在`next`函数执行完成后可以处理响应的内容。
+
+```js
+class Middleware1 {
+    async handler(ctx, next) {
+        console.log('Middleware1 before next');
+        await next();
+        console.log('Middleware1 after next');
+    }
+}
+
+class Middleware2 {
+    async handler(ctx, next) {
+        console.log('Middleware2 before next');
+        await next();
+        console.log('Middleware2 after next');
+    }
+}
+
+// 路由匹配到的处理函数
+function handle() {
+    console.log('handle');
+}
+
+Server.middleware.register([
+  Middleware1,
+  Middleware2,
+])
+
+// Middleware1 before next
+// Middleware2 before next
+// handle
+// Middleware2 after next
+// Middleware1 after next
+```
+
+
+#### 实现
 
 在`adonisjs`中，是通过洋葱模型来实现中间件的，下面是一个简单实现的代码：
 
